@@ -8,6 +8,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var mobiletestRouter = require('./routes/mobiletest');
 var spotifyRouter = require('./routes/spotify');
+var connectRouter = require('./routes/connect');
 
 var app = express();
 var port = 3000;
@@ -32,6 +33,8 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/mobiletest', mobiletestRouter);
 app.use('/spotify', spotifyRouter);
+app.use('/connect', connectRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
