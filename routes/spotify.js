@@ -1,9 +1,7 @@
 var express = require('express');
 var path = require('path');
 var request = require('request'); // "Request" library
-var cors = require('cors');
 var querystring = require('querystring');
-var cookieParser = require('cookie-parser');
 var router = express.Router();
 
 var client_id = '727abe78888841138efa90ffe40ee81d'; // Your client id
@@ -26,6 +24,17 @@ var generateRandomString = function(length) {
 };
 
 var stateKey = 'spotify_auth_state';
+
+/*
+router.use(express.static(__dirname + '/public'))
+    .use(cors())
+    .use(cookieParser());
+*/
+
+/* GET home page. */
+router.get('/', function(req, res, next) {
+    res.render('spotify.html', { title: 'Spotify' });
+});
 
 /* GET home page. */
 router.get('/login', function(req, res) {
