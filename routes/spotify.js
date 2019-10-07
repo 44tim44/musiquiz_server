@@ -25,12 +25,6 @@ var generateRandomString = function(length) {
 
 var stateKey = 'spotify_auth_state';
 
-/*
-router.use(express.static(__dirname + '/public'))
-    .use(cors())
-    .use(cookieParser());
-*/
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
     res.render('spotify.html', { title: 'Spotify' });
@@ -43,7 +37,7 @@ router.get('/login', function(req, res) {
     res.cookie(stateKey, state);
 
     // your application requests authorization
-    var scope = 'user-read-private user-read-email';
+    var scope = 'user-read-private user-read-email streaming app-remote-control';
     res.redirect('https://accounts.spotify.com/authorize?' +
         querystring.stringify({
             response_type: 'code',
@@ -99,6 +93,9 @@ router.get('/callback', function(req, res) {
                 request.get(options, function(error, response, body) {
                     console.log(body);
                 });
+
+                res.app.set('access_token', access_token);
+                res.app.set('refresh_token', refresh_token);
 
                 // we can also pass the token to the browser to make requests from there
                 res.redirect('/#' +
