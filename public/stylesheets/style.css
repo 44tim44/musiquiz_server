@@ -1,8 +1,56 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: 'Alegreya Sans', sans-serif;
+  font-style: italic;
+  font-weight: 800;
+  background: radial-gradient(110.97% 110.97% at 15.81% -10.97%, rgba(0, 255, 148, 0.75) 0%, rgba(0, 255, 148, 0) 100%), radial-gradient(100% 100% at 50% 0%, #09BEE5 0%, #09BEE5 75.53%, #247ED0 100%);
+  mix-blend-mode: normal;
+  margin: 0;
+  text-transform: uppercase;
+  color: white;
+  height: 100vh;
+  width: 100vw;
 }
 
 a {
   color: #00B7FF;
+}
+
+.question {
+  text-align: center;
+  vertical-align: middle;
+  font-size: 6vh;
+  line-height: 35vh;
+}
+
+.answer_table {
+  padding: 0;
+  margin: 0;
+text-align: center;
+}
+
+.answer_box {
+  display: inline-block;
+  text-align: center;
+  width: 45vw;
+  height: 25vh;
+  line-height: 23vh;
+  border: solid white 20px;
+  border-radius: 25px;
+  margin: 20px;
+  font-size: 3.5vw;
+  box-sizing: border-box;
+  max-width: 50%;
+}
+
+#answer_1 {
+  background-color: #009245;
+}
+#answer_2 {
+  background-color: #ED1C24;
+}
+#answer_3 {
+  background-color: #0071BC;
+}
+#answer_4 {
+  background-color: #FBB03B;
 }
