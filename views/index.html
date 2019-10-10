@@ -8,6 +8,7 @@
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
     <p>Your Token is: <%= access_token %></p>
+    <a href="./question">Question</a>
     <script>
         var access_token = "<%= access_token %>";
         var mambo5 = 'spotify:track:6x4tKaOzfNJpEJHySoiJcs';
@@ -27,7 +28,10 @@
 
             // Error handling
             player.addListener('initialization_error', ({ message }) => { console.error(message); });
-            player.addListener('authentication_error', ({ message }) => { console.error(message); });
+            player.addListener('authentication_error', ({ message }) => {
+                console.error(message);
+                window.location = "/spotify";
+            });
             player.addListener('account_error', ({ message }) => { console.error(message); });
             player.addListener('playback_error', ({ message }) => { console.error(message); });
 
