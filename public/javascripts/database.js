@@ -4,10 +4,11 @@ var con;
 function initDB() {
     if(!con) {
         con = mysql.createConnection({
-            host: "localhost",
+            host: "158.174.101.173",
+            port: 3001,
             database: "musiquizdb",
-            user: "root",
-            password: "musiquizroot"
+            user: "external",
+            password: "mqrootex"
         });
 
         con.connect(function (err) {

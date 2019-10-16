@@ -18,6 +18,7 @@ function getQuestion(callback) {
     if (err) throw err;
     console.log("Result: " + result);
     callback(err, result);
+    con.end();
   });
 }
 
