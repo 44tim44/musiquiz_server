@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 
-const initDB = require("../public/javascripts/database").initDB;
 const getDB = require("../public/javascripts/database").getDB;
 var con;
 
