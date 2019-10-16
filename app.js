@@ -6,9 +6,11 @@ var logger = require('morgan');
 const initDB = require("./public/javascripts/database").initDB;
 const getDB = require("./public/javascripts/database").getDB;
 
+var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var mobiletestRouter = require('./routes/mobiletest');
 var questionRouter = require('./routes/question');
+var spotifyRouter = require('./routes/spotify')
 var clientRouter = require('./routes/client');
 var lobbyRouter = require('./routes/lobby');
 
@@ -27,10 +29,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', clientRouter);
+app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/mobiletest', mobiletestRouter);
 app.use('/question', questionRouter);
+app.use('/spotify', spotifyRouter);
 app.use('/client', clientRouter);
 app.use('/lobby', lobbyRouter);
 

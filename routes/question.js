@@ -33,4 +33,13 @@ router.get('/', function(req, res, next) {
   });
 });
 
+/**
+ * wait_for_responses(amount = amount_of_players)
+ * {
+ *     redirect_to("/question?id=" + next_id)
+ * }
+ *
+ * */
+
+
 module.exports = router;
