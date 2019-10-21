@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const initDB = require("./public/javascripts/database").initDB;
 const getDB = require("./public/javascripts/database").getDB;
+initDB();
 var socketConnection = require("./public/javascripts/socketConnection");
 
 var indexRouter = require('./routes/index');
@@ -36,9 +37,6 @@ socket.on('connection', socket => {
 
 });
 */
-
-
-initDB();
 
 // app.js
 app.engine('html', require('ejs').renderFile);
