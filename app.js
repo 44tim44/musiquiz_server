@@ -9,6 +9,7 @@ const getDB = require("./public/javascripts/database").getDB;
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var questionRouter = require('./routes/question');
+var storeRouter = require('./routes/store');
 var spotifyRouter = require('./routes/spotify')
 var lobbyRouter = require('./routes/lobby');
 
@@ -45,6 +46,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/question', questionRouter);
+app.use('/store', storeRouter);
 app.use('/spotify', spotifyRouter);
 app.use('/lobby', lobbyRouter);
 

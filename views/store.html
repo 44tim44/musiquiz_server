@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans:400,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/nav.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/store.css">
+</head>
+<body>
+<script>
+    var access_token = "<%= access_token %>";
+</script>
+<script src="https://sdk.scdn.co/spotify-player.js"></script>
+<script>
+    window.onSpotifyWebPlaybackSDKReady = () => {
+        const token = access_token;
+        const player = new Spotify.Player({
+            name: 'Musiquiz Player',
+            //getOAuthToken: cb => { cb(token); }
+            getOAuthToken: callback => {
+                callback(access_token);
+            },
+            volume: 0.1
+        });
+
+        // Error handling
+        player.addListener('initialization_error', ({ message }) => { console.error(message); });
+        player.addListener('authentication_error', ({ message }) => {
+            console.error(message);
+            window.location = "/spotify";
+        });
+        player.addListener('account_error', ({ message }) => { console.error(message); });
+        player.addListener('playback_error', ({ message }) => { console.error(message); });
+
+        // Playback status updates
+        player.addListener('player_state_changed', state => { console.log(state); });
+
+        // Ready
+        player.addListener('ready', ({ device_id }) => {
+            console.log('Ready with Device ID', device_id);
+
+        });
+
+        // Not Ready
+        player.addListener('not_ready', ({ device_id }) => {
+            console.log('Device ID has gone offline', device_id);
+        });
+
+        // Connect to the player created beforehand, this is equivalent to
+        // creating a new device which will be visible for Spotify Connect
+        player.connect();
+    };
+</script>
+
+    <ul>
+        <li><a class="active" href="./store">MUSIQUIZ</a></li>
+        <li><a href="./">Play</a></li>
+        <li><a href="./">How To Play</a></li>
+    </ul>
+    <section>
+        <h1 style="margin-left: 5px">POPULAR RIGHT NOW</h1>
+        <div class="wrapper">
+            <% for(var i = 0; i < quiz.length; i++) {%>
+            <div class="card">
+                <h2><%= quiz[i].Name %></h2>
+                <br/>
+                <span>ID: </span><%= quiz[i].idquiz %>
+            </div>
+            <% } %>
+        </div>
+    </section>
+</body>
+</html>
