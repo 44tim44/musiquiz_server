@@ -4,9 +4,13 @@ var router = express.Router();
 const getDB = require("../public/javascripts/database").getDB;
 var con;
 
+const getSocket = require("../public/javascripts/socketConnection").getSocket;
+var socket;
+
 router.use(function(req,res,next) {
   console.log("Retrieved DB.")
   con = getDB();
+  socket = getSocket();
   next();
 });
 
@@ -17,7 +21,7 @@ function getQuestion(callback) {
     if (err) throw err;
     console.log("Result: " + result);
     callback(err, result);
-    con.end();
+    //con.end();
   });
 }
 
@@ -28,6 +32,7 @@ router.get('/', function(req, res, next) {
 
   getQuestion(function (err, sql_result) {
     var obj = sql_result[0];
+    socket.to('12345').emit('NewQuestion', obj);
     res.render('question.html', { title: 'Musiquiz' , access_token, refresh_token, question: obj.Question, answer1: obj.Answer1, answer2: obj.Answer2, answer3: obj.Answer3, answer4: obj.Answer4, spotify_uri: obj.SpotifyURI});
   });
 });

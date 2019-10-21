@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const initDB = require("./public/javascripts/database").initDB;
 const getDB = require("./public/javascripts/database").getDB;
+var socketConnection = require("./public/javascripts/socketConnection");
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -16,6 +17,9 @@ var lobbyRouter = require('./routes/lobby');
 var app = express();
 var port = 3000;
 
+//app.use(socketConnection);
+
+/*
 const socket = require('socket.io')(8040);
 
 socket.on('connection', socket => {
@@ -31,7 +35,7 @@ socket.on('connection', socket => {
   });
 
 });
-
+*/
 
 
 initDB();
