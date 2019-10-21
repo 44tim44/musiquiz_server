@@ -23,10 +23,13 @@ socket.on('connection', socket => {
 
   socket.on('data', message => {
     console.log(message);
+
     socket.emit('fromserver', {
       response: "Your data arrived!"
     });
-  })
+
+  });
+
 });
 
 
