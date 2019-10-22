@@ -17,10 +17,11 @@ li a {
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
+  overflow: hidden;
 }
 
 li a:hover {
-  background-color: #111;
+  background-color:rgba(0,0,0,0.25);
   overflow-x: hidden;
 }
 li a img{
