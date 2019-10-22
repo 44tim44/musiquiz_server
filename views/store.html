@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/nav.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/store.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 </head>
 <body>
 <script>
@@ -29,7 +30,7 @@
         player.addListener('initialization_error', ({ message }) => { console.error(message); });
         player.addListener('authentication_error', ({ message }) => {
             console.error(message);
-            window.location = "/spotify";
+            //window.location = "/spotify";
         });
         player.addListener('account_error', ({ message }) => { console.error(message); });
         player.addListener('playback_error', ({ message }) => { console.error(message); });
@@ -55,21 +56,172 @@
 </script>
 
     <ul>
-        <li><a class="active" href="./store">MUSIQUIZ</a></li>
+        <li><a class="active" href="./store"><img src="images/Musiquiz.png"></a></li>
         <li><a href="./">Play</a></li>
         <li><a href="./">How To Play</a></li>
     </ul>
-    <section>
-        <h1 style="margin-left: 5px">POPULAR RIGHT NOW</h1>
-        <div class="wrapper">
-            <% for(var i = 0; i < quiz.length; i++) {%>
-            <div class="card">
-                <h2><%= quiz[i].Name %></h2>
-                <br/>
-                <span>ID: </span><%= quiz[i].idquiz %>
+
+<h1>Popular Right Now</h1>
+<section class="s">
+    <img src="images/arrow_left.svg" id="prev">
+    <div class="wrapper">
+        <% for(var i = 0; i < quiz.length; i++) {%>
+        <div class="card">
+            <img src="images/<%= quiz[i].Image %>" alt="<%= quiz[i].Name %>" style="width:100%">
+            <div class="container">
+                <h4><b><%= quiz[i].Name %></b></h4>
+                <p>ID: <%= quiz[i].idquiz %></p>
             </div>
-            <% } %>
         </div>
-    </section>
+        <% } %>
+
+
+
+        <% for(var i = 0; i < quiz.length; i++) {%>
+        <div class="card">
+            <img src="images/<%= quiz[i].Image %>" alt="<%= quiz[i].Name %>" style="width:100%">
+            <div class="container">
+                <h4><b><%= quiz[i].Name %></b></h4>
+                <p>ID: <%= quiz[i].idquiz %></p>
+            </div>
+        </div>
+        <% } %><% for(var i = 0; i < quiz.length; i++) {%>
+        <div class="card">
+            <img src="images/<%= quiz[i].Image %>" alt="<%= quiz[i].Name %>" style="width:100%">
+            <div class="container">
+                <h4><b><%= quiz[i].Name %></b></h4>
+                <p>ID: <%= quiz[i].idquiz %></p>
+            </div>
+        </div>
+        <% } %><% for(var i = 0; i < quiz.length; i++) {%>
+        <div class="card">
+            <img src="images/<%= quiz[i].Image %>" alt="<%= quiz[i].Name %>" style="width:100%">
+            <div class="container">
+                <h4><b><%= quiz[i].Name %></b></h4>
+                <p>ID: <%= quiz[i].idquiz %></p>
+            </div>
+        </div>
+        <% } %><% for(var i = 0; i < quiz.length; i++) {%>
+        <div class="card">
+            <img src="images/<%= quiz[i].Image %>" alt="<%= quiz[i].Name %>" style="width:100%">
+            <div class="container">
+                <h4><b><%= quiz[i].Name %></b></h4>
+                <p>ID: <%= quiz[i].idquiz %></p>
+            </div>
+        </div>
+        <% } %><% for(var i = 0; i < quiz.length; i++) {%>
+        <div class="card">
+            <img src="images/<%= quiz[i].Image %>" alt="<%= quiz[i].Name %>" style="width:100%">
+            <div class="container">
+                <h4><b><%= quiz[i].Name %></b></h4>
+                <p>ID: <%= quiz[i].idquiz %></p>
+            </div>
+        </div>
+        <% } %><% for(var i = 0; i < quiz.length; i++) {%>
+        <div class="card">
+            <img src="images/<%= quiz[i].Image %>" alt="<%= quiz[i].Name %>" style="width:100%">
+            <div class="container">
+                <h4><b><%= quiz[i].Name %></b></h4>
+                <p>ID: <%= quiz[i].idquiz %></p>
+            </div>
+        </div>
+        <% } %>
+    </div>
+    <img src="images/arrow_right.svg" id="next">
+</section>
+<h1>What's New?</h1>
+<section class="s">
+    <img src="images/arrow_left.svg" id="prev2">
+    <div class="wrapper2">
+        <% for(var i = 0; i < quiz.length; i++) {%>
+        <div class="card">
+            <img src="images/<%= quiz[i].Image %>" alt="<%= quiz[i].Name %>" style="width:100%">
+            <div class="container">
+                <h4><b><%= quiz[i].Name %></b></h4>
+                <p>ID: <%= quiz[i].idquiz %></p>
+            </div>
+        </div>
+        <% } %>
+
+
+
+        <% for(var i = 0; i < quiz.length; i++) {%>
+        <div class="card">
+            <img src="images/<%= quiz[i].Image %>" alt="<%= quiz[i].Name %>" style="width:100%">
+            <div class="container">
+                <h4><b><%= quiz[i].Name %></b></h4>
+                <p>ID: <%= quiz[i].idquiz %></p>
+            </div>
+        </div>
+        <% } %><% for(var i = 0; i < quiz.length; i++) {%>
+        <div class="card">
+            <img src="images/<%= quiz[i].Image %>" alt="<%= quiz[i].Name %>" style="width:100%">
+            <div class="container">
+                <h4><b><%= quiz[i].Name %></b></h4>
+                <p>ID: <%= quiz[i].idquiz %></p>
+            </div>
+        </div>
+        <% } %><% for(var i = 0; i < quiz.length; i++) {%>
+        <div class="card">
+            <img src="images/<%= quiz[i].Image %>" alt="<%= quiz[i].Name %>" style="width:100%">
+            <div class="container">
+                <h4><b><%= quiz[i].Name %></b></h4>
+                <p>ID: <%= quiz[i].idquiz %></p>
+            </div>
+        </div>
+        <% } %><% for(var i = 0; i < quiz.length; i++) {%>
+        <div class="card">
+            <img src="images/<%= quiz[i].Image %>" alt="<%= quiz[i].Name %>" style="width:100%">
+            <div class="container">
+                <h4><b><%= quiz[i].Name %></b></h4>
+                <p>ID: <%= quiz[i].idquiz %></p>
+            </div>
+        </div>
+        <% } %><% for(var i = 0; i < quiz.length; i++) {%>
+        <div class="card">
+            <img src="images/<%= quiz[i].Image %>" alt="<%= quiz[i].Name %>" style="width:100%">
+            <div class="container">
+                <h4><b><%= quiz[i].Name %></b></h4>
+                <p>ID: <%= quiz[i].idquiz %></p>
+            </div>
+        </div>
+        <% } %><% for(var i = 0; i < quiz.length; i++) {%>
+        <div class="card">
+            <img src="images/<%= quiz[i].Image %>" alt="<%= quiz[i].Name %>" style="width:100%">
+            <div class="container">
+                <h4><b><%= quiz[i].Name %></b></h4>
+                <p>ID: <%= quiz[i].idquiz %></p>
+            </div>
+        </div>
+        <% } %>
+    </div>
+    <img src="images/arrow_right.svg" id="next2">
+</section>
+
+<script>
+    $('#prev').on('click', function() {
+        $('.wrapper').animate({
+            scrollLeft: '-=205'
+        }, 300, 'swing');
+    });
+    $('#next').on('click', function() {
+        $('.wrapper').animate({
+            scrollLeft: '+=205'
+        }, 300, 'swing');
+    });
+
+
+    $('#prev2').on('click', function() {
+        $('.wrapper2').animate({
+            scrollLeft: '-=205'
+        }, 300, 'swing');
+    });
+
+    $('#next2').on('click', function() {
+        $('.wrapper2').animate({
+            scrollLeft: '+=205'
+        }, 300, 'swing');
+    });
+</script>
 </body>
 </html>

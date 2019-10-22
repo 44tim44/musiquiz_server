@@ -1,9 +1,56 @@
-.wrapper {
-  overflow-x: scroll;
-  overflow-y: hidden;
-  white-space: nowrap;
+.card {
+  margin: 10px;
+  display: inline-block;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 200px;
+  height: 250px;
+  background-color: white;
+}
+.card img{
+  width:100%;
+  height:60%;
+  object-fit: cover;
+  overflow: hidden;
+}
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 
-.card {
-  display: inline-block;
+.container {
+  padding: 2px 16px;
+  color: black;
+}
+.wrapper {
+  overflow-x: hidden;
+  overflow-y: hidden;
+  white-space: nowrap;
+  width: 100vw;
+}
+#prev{
+
+}
+#next{
+
+}
+h1{
+  padding-left: 50px;
+}
+.s{
+  position: relative;
+  display: flex;
+  background-color:rgba(0,0,0,0.2);
+  width: 100vw;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+.s div{
+  flex: 1;
+}
+.wrapper2 {
+  overflow-x: hidden;
+  overflow-y: hidden;
+  white-space: nowrap;
+  width: 100vw;
 }
