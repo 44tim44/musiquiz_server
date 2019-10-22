@@ -9,19 +9,27 @@ socket.on('connection', socket => {
         console.log(message);
         //Save user with username "message.Username" to mySQL DB
         var con = getDB();
-        var sql = "SELECT * FROM lobby WHERE lobbypin = ?";
 
+        var sql = "SELECT * FROM lobby WHERE lobbypin = ?";
         con.query(sql, message.PIN, function (err, result) {
             if (err) throw err;
-            console.log(result[0]);
-            if(result[0] != undefined){
-                var sql2 = "INSERT INTO tempuser (lobbypin, username) VALUES (?, ?)";
 
-                con.query(sql2,[message.PIN, message.Username], function (err, rows, result) {
+            if(result[0] != undefined){
+                var sql2 = "SELECT * FROM tempuser WHERE lobbypin = ? AND username = ?";
+                con.query(sql2, [message.PIN, message.Username], function (err, result) {
                     if (err) throw err;
-                    console.log("1 record inserted");
+
+                    if(result[0] == undefined) {
+                        var sql3 = "INSERT INTO tempuser (lobbypin, username) VALUES (?, ?)";
+                        con.query(sql3, [message.PIN, message.Username], function (err, rows, result) {
+                            if (err) throw err;
+                            console.log("1 temporary user inserted.");
+                        });
+                    }
+                    else console.log("Temporary user already exists in database.");
                 });
             }
+            else console.log("No Lobby with such PIN-code exists.");
         });
 
         var pin = message.PIN;
