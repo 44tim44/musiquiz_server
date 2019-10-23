@@ -10,16 +10,25 @@ socket.on('connection', socket => {
         //Save user with username "message.Username" to mySQL DB
         var con = getDB();
 
+        /**
+         *  Checks if the supplied LobbyPIN is valid
+         */
         var sql = "SELECT * FROM lobby WHERE LobbyPin = ?";
         con.query(sql, message.PIN, function (err, result) {
             if (err) throw err;
-
             if(result[0] != undefined){
+
+                /**
+                 *  Checks if the Tempuser already exists in database (in case of reconnect)
+                 */
                 var sql2 = "SELECT * FROM tempuser WHERE LobbyPin = ? AND Username = ?";
                 con.query(sql2, [message.PIN, message.Username], function (err, result) {
                     if (err) throw err;
-
                     if(result[0] == undefined) {
+
+                        /**
+                         *  Checks if the Tempuser already exists in database (in case of reconnect)
+                         */
                         var sql3 = "INSERT INTO tempuser (LobbyPin, Username) VALUES (?, ?)";
                         con.query(sql3, [message.PIN, message.Username], function (err, rows, result) {
                             if (err) throw err;
@@ -48,30 +57,44 @@ socket.on('connection', socket => {
         // Handle message.Username, message.Answer & message.QuestionNo
         var con = getDB();
 
+        /**
+         *  Checks if the supplied LobbyPIN is valid
+         */
         var sql = "SELECT * FROM lobby WHERE LobbyPin = ?";
-        con.query(sql, message.PIN, function (err, result) {
-            if (err) throw err;
+        con.query(sql, message.PIN, function (err1, result) {
+            if (err1) throw err1;
             if(result[0] != undefined){
 
-                var sql4 = "SELECT * FROM question WHERE quiz IN (SELECT CurrentQuiz FROM lobby WHERE LobbyPin = ?)";
-                con.query(sql4, message.PIN, function (err, result) {
-                    var correctAnswer = result[message.QuestionNo].CorrectAnswer;
-                    if(correctAnswer == message.Answer){
-                        var sql2 = "SELECT * FROM tempuser WHERE LobbyPin = ? AND Username = ?";
-                        con.query(sql2, [message.PIN, message.Username], function (err, result) {
-                            if (err) throw err;
+                /**
+                 *  Checks if the supplied Tempuser-data is valid
+                 */
+                var sql2 = "SELECT * FROM tempuser WHERE LobbyPin = ? AND Username = ?";
+                con.query(sql2, [message.PIN, message.Username], function (err2, result) {
+                    if (err2) throw err2;
+                    if(result[0] != undefined) {
 
-                            if(result[0] != undefined) {
-                                var sql3 = "UPDATE tempuser SET Score = Score + 100  WHERE LobbyPin = ? AND Username = ?";
-                                con.query(sql3, [message.PIN, message.Username], function (err, rows, result) {
-                                    if (err) throw err;
+                        /**
+                         *  Select the question currently being played in the lobby which corresponds with supplied PIN-code
+                         *  Then check if the supplied answer is the same as the CorrectAnswer in said Question.
+                         */
+                        var sql3 = "SELECT * FROM question WHERE quiz IN (SELECT CurrentQuiz FROM lobby WHERE LobbyPin = ?)";
+                        con.query(sql3, message.PIN, function (err3, result) {
+                            var correctAnswer = result[message.QuestionNo].CorrectAnswer;
+                            if(correctAnswer == message.Answer){
+
+                                /**
+                                 *  Increment Score with 100 points
+                                 */
+                                var sql4 = "UPDATE tempuser SET Score = Score + 100  WHERE LobbyPin = ? AND Username = ?";
+                                con.query(sql4, [message.PIN, message.Username], function (err4, rows, result) {
+                                    if (err4) throw err4;
                                     console.log("Correct Answer from " + message.Username + " Score incremented.");
                                 });
                             }
-                            else console.log("Temporary user doesn't exists in database.");
+                            else console.log("Incorrect Answer from " + message.Username);
                         });
                     }
-                    else console.log("Incorrect Answer from " + message.Username);
+                    else console.log("Temporary user doesn't exists in database.");
                 });
             }
             else console.log("No Lobby with such PIN-code exists.");
@@ -83,16 +106,21 @@ socket.on('connection', socket => {
     });
 
     socket.on('Quit', message => {
-        //Remove user with username "message.Username" from mySQL DB
         var con = getDB();
-        var sql = "SELECT * FROM tempuser WHERE LobbyPin = ? AND Username = ?";
 
+        /**
+         *  Checks if the supplied Tempuser-data is valid
+         */
+        var sql = "SELECT * FROM tempuser WHERE LobbyPin = ? AND Username = ?";
         con.query(sql, [message.PIN, message.Username], function (err, result) {
             if (err) throw err;
             console.log(result[0]);
             if(result[0] != undefined){
-                var sql2 = "DELETE FROM tempuser WHERE LobbyPin = ? AND Username = ?";
 
+                /**
+                 *  Removes Tempuser-data from Database
+                 */
+                var sql2 = "DELETE FROM tempuser WHERE LobbyPin = ? AND Username = ?";
                 con.query(sql2,[message.PIN, message.Username], function (err, rows, result) {
                     if (err) throw err;
                     console.log("1 record deleted");
