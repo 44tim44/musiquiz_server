@@ -112,7 +112,8 @@ router.get('/', function(req, res, next) {
                       answer3: obj.Answer3,
                       answer4: obj.Answer4,
                       spotify_uri: obj.SpotifyURI,
-                      correctanswer: obj.CorrectAnswer
+                      correctanswer: obj.CorrectAnswer,
+                      pincode: '12345'
                   });
               });
           }

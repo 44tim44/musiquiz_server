@@ -1,4 +1,3 @@
-var pincode;
 var con = mysql.createConnection({
     host: "158.174.101.173",
     port: 3001,
@@ -21,8 +20,13 @@ function dbLoop() {
         var sql = "SELECT AnswersReceived FROM lobby WHERE LobbyPin = ? ; SELECT * FROM tempuser WHERE LobbyPin = ?";
         con.query(sql, [pincode, pincode], function (err, result) {
             if (err) throw err;
-            if(result[0][0] >= result[1].length) {
-
+            if(result[0][0] < result[1].length /*&& song.time >= song.duration */) {
+                dbLoop();
+            }
+            else {
+                correctAnswer();
+                setTimeout(redirect, 4000);
+                return;
             }
         });
     }, 2000);
@@ -46,8 +50,8 @@ function correctAnswer() {
         }
     }
 }
-setInterval(correctAnswer, 1000);
-setInterval(redirect, 2000);
+
+
 
 function redirect(){
     document.redirectQuest.submit();
