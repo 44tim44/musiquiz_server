@@ -30,7 +30,7 @@ function getNumbofQuestion(callback){
 function getQuestionNumber(callback){
     var pin_lobby = 12345;
 
-    var quest_numb = "SELECT currentquestion FROM lobby WHERE  lobbypin = ?"
+    var quest_numb = "SELECT currentquestion FROM lobby WHERE lobbypin = ?"
     var qurrent_quest = 0;
     con.query(quest_numb, pin_lobby ,function (err ,result) {
         if (err) throw err;
@@ -62,6 +62,29 @@ function getQuestion(callback) {
     callback(err ,result);
     //con.end();
   });
+}
+function getZeroquest() {
+    var questto_zero = "UPDATE lobby SET currentquestion = 0  WHERE LobbyPin = ?";
+
+    con.query(questto_zero, 12345 ,function (err ,result) {
+        if (err) throw err;
+        console.log("Question number: " + result);
+    });
+}
+
+function getHighscore(callback) {
+    var id = 1;
+    var pin_lobby = 12345;
+
+    var result_list = "SELECT * FROM tempuser WHERE lobbypin = ? ORDER BY Score DESC "
+
+
+    con.query(result_list, pin_lobby ,function (err ,result) {
+        if (err) throw err;
+        console.log("Result: " + result);
+        callback(err ,result);
+        //con.end();
+    });
 }
 
 /* GET home page. */
@@ -95,9 +118,18 @@ router.get('/', function(req, res, next) {
           }
           else{
               //Sätt Databas-Lobby-Currentquiz till 0 igen
-              res.render('result.html', {
-                  title: 'Musiquiz'
+
+              getHighscore(function (err, result) {
+                  getZeroquest();
+                  var result_list = result;
+                  res.render('result.html', {
+                      title: 'Musiquiz',
+                      access_token,
+                      refresh_token,
+                      Result: result
+                  });
               });
+
             };
         });
     });
@@ -112,7 +144,6 @@ router.post('/', function(req, res) {
     con.query(update_quest, lobby_pin ,function (err ,result) {
         if (err) throw err;
         console.log("Question number: " + result);
-        con.end();
     });
   res.redirect('/question');
 })
