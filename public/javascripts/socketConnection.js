@@ -48,25 +48,30 @@ socket.on('connection', socket => {
         // Handle message.Username, message.Answer & message.QuestionNo
         var con = getDB();
 
-        var sql4 = "SELECT * FROM lobby WHERE LobbyPin = ?";
-
         var sql = "SELECT * FROM lobby WHERE LobbyPin = ?";
         con.query(sql, message.PIN, function (err, result) {
             if (err) throw err;
-
             if(result[0] != undefined){
-                var sql2 = "SELECT * FROM tempuser WHERE LobbyPin = ? AND Username = ?";
-                con.query(sql2, [message.PIN, message.Username], function (err, result) {
-                    if (err) throw err;
 
-                    if(result[0] == undefined) {
-                        var sql3 = "UPDATE tempuser SET Score = Score + 100  WHERE LobbyPin = ? AND Username = ?";
-                        con.query(sql3, [message.PIN, message.Username], function (err, rows, result) {
+                var sql4 = "SELECT * FROM question WHERE quiz IN (SELECT CurrentQuiz FROM lobby WHERE LobbyPin = ?)";
+                con.query(sql4, message.PIN, function (err, result) {
+                    var correctAnswer = result[message.QuestionNo].CorrectAnswer;
+                    if(correctAnswer == message.Answer){
+                        var sql2 = "SELECT * FROM tempuser WHERE LobbyPin = ? AND Username = ?";
+                        con.query(sql2, [message.PIN, message.Username], function (err, result) {
                             if (err) throw err;
-                            console.log("1 temporary user inserted.");
+
+                            if(result[0] != undefined) {
+                                var sql3 = "UPDATE tempuser SET Score = Score + 100  WHERE LobbyPin = ? AND Username = ?";
+                                con.query(sql3, [message.PIN, message.Username], function (err, rows, result) {
+                                    if (err) throw err;
+                                    console.log("Correct Answer from " + message.Username + " Score incremented.");
+                                });
+                            }
+                            else console.log("Temporary user doesn't exists in database.");
                         });
                     }
-                    else console.log("Temporary user already exists in database.");
+                    else console.log("Incorrect Answer from " + message.Username);
                 });
             }
             else console.log("No Lobby with such PIN-code exists.");
