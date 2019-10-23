@@ -12,8 +12,10 @@ router.use(function(req,res,next) {
 });
 
 function getData(id,callback) {
-  var sql = "SELECT * FROM quiz;SELECT Coins FROM user WHERE SpotifyID = ?"
-  con.query(sql,[id], function (err, result) {
+  var sql = "SELECT * FROM quiz;" +
+      "SELECT Coins FROM user WHERE SpotifyID = ?;" +
+      "SELECT * FROM user_quiz WHERE UserID = (SELECT idUser FROM user WHERE SpotifyID = ?)"
+  con.query(sql,[id, id], function (err, result) {
     if (err) throw err;
     console.log("Result: " + result);
     callback(err, result);
@@ -28,7 +30,8 @@ router.get('/', function(req, res, next) {
   getData(user_id,function (err, sql_result) {
     var quiz = sql_result[0];
     var coins = sql_result[1];
-    res.render('store.html', { title: 'Musiquiz' , access_token, refresh_token, quiz: quiz, coins: coins});
+    var owned = sql_result[2];
+    res.render('store.html', { title: 'Musiquiz' , access_token, refresh_token, quiz: quiz, coins: coins, owned: owned});
   });
 });
 

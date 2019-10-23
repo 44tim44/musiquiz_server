@@ -54,20 +54,44 @@
         player.connect();
     };
 </script>
-
+    <!-- The Navbar -->
     <ul>
         <li><a class="active" href="./store"><img src="images/Musiquiz.png"></a></li>
-        <li><a href="./">Play</a></li>
-        <li><a href="./">How To Play</a></li>
-        <li style="float: right"><a href="./"><%= coins[0].Coins %> coins</a></li>
+        <li><a href="./store">Play</a></li>
+        <li><a href="./store">Create</a></li>
+        <li><a href="./store">How To Play</a></li>
+        <li style="float: right"><a href="./store"><%= coins[0].Coins %> coins</a></li>
     </ul>
 
+    <!-- The Modal -->
+    <% for(var i = 0; i < quiz.length; i++) {%>
+        <div id="myModal<%= i %>" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close" onclick="closePopUp(<%= i %>)">&times;</span>
+                <img src="images/<%= quiz[i].Image %>" alt="<%= quiz[i].Name %>" style="width:100%">
+                <h3><b>QuizID: <%= quiz[i].idquiz %></b></h3>
+                <h4><b>QuizName:<%= quiz[i].Name %></b></h4>
+                <% for(var j = 0; j < owned.length; j++) {%>
+                    <% if(owned[j].QuizID == quiz[i].idquiz){ %>
+                        <button onclick="play()">
+                            PLAY
+                        </button>
+                    <% }else{ %>
+                        <button onclick="buy()">
+                            BUY
+                        </button>
+                    <% } %>
+                <% } %>
+            </div>
+        </div>
+    <% } %>
 <h1>Popular Right Now</h1>
 <section class="s">
     <img src="images/arrow_left.svg" id="prev">
     <div class="wrapper">
         <% for(var i = 0; i < quiz.length; i++) {%>
-        <div class="card">
+        <div class="card" onclick="popUp(<%= i %>)" id="myBtn<%= i %>">
             <img src="images/<%= quiz[i].Image %>" alt="<%= quiz[i].Name %>" style="width:100%">
             <div class="container">
                 <h4><b><%= quiz[i].Name %></b></h4>
@@ -79,47 +103,52 @@
 
 
         <% for(var i = 0; i < quiz.length; i++) {%>
-        <div class="card">
+        <div class="card" onclick="popUp(<%= i %>)" id="myBtn<%= i %>">
             <img src="images/<%= quiz[i].Image %>" alt="<%= quiz[i].Name %>" style="width:100%">
             <div class="container">
                 <h4><b><%= quiz[i].Name %></b></h4>
                 <p>ID: <%= quiz[i].idquiz %></p>
             </div>
         </div>
-        <% } %><% for(var i = 0; i < quiz.length; i++) {%>
-        <div class="card">
+        <% } %>
+        <% for(var i = 0; i < quiz.length; i++) {%>
+        <div class="card" onclick="popUp(<%= i %>)" id="myBtn<%= i %>">
             <img src="images/<%= quiz[i].Image %>" alt="<%= quiz[i].Name %>" style="width:100%">
             <div class="container">
                 <h4><b><%= quiz[i].Name %></b></h4>
                 <p>ID: <%= quiz[i].idquiz %></p>
             </div>
         </div>
-        <% } %><% for(var i = 0; i < quiz.length; i++) {%>
-        <div class="card">
+        <% } %>
+        <% for(var i = 0; i < quiz.length; i++) {%>
+        <div class="card" onclick="popUp(<%= i %>)" id="myBtn<%= i %>">
             <img src="images/<%= quiz[i].Image %>" alt="<%= quiz[i].Name %>" style="width:100%">
             <div class="container">
                 <h4><b><%= quiz[i].Name %></b></h4>
                 <p>ID: <%= quiz[i].idquiz %></p>
             </div>
         </div>
-        <% } %><% for(var i = 0; i < quiz.length; i++) {%>
-        <div class="card">
+        <% } %>
+        <% for(var i = 0; i < quiz.length; i++) {%>
+        <div class="card" onclick="popUp(<%= i %>)" id="myBtn<%= i %>">
             <img src="images/<%= quiz[i].Image %>" alt="<%= quiz[i].Name %>" style="width:100%">
             <div class="container">
                 <h4><b><%= quiz[i].Name %></b></h4>
                 <p>ID: <%= quiz[i].idquiz %></p>
             </div>
         </div>
-        <% } %><% for(var i = 0; i < quiz.length; i++) {%>
-        <div class="card">
+        <% } %>
+        <% for(var i = 0; i < quiz.length; i++) {%>
+        <div class="card" onclick="popUp(<%= i %>)" id="myBtn<%= i %>">
             <img src="images/<%= quiz[i].Image %>" alt="<%= quiz[i].Name %>" style="width:100%">
             <div class="container">
                 <h4><b><%= quiz[i].Name %></b></h4>
                 <p>ID: <%= quiz[i].idquiz %></p>
             </div>
         </div>
-        <% } %><% for(var i = 0; i < quiz.length; i++) {%>
-        <div class="card">
+        <% } %>
+        <% for(var i = 0; i < quiz.length; i++) {%>
+        <div class="card" onclick="popUp(<%= i %>)" id="myBtn<%= i %>">
             <img src="images/<%= quiz[i].Image %>" alt="<%= quiz[i].Name %>" style="width:100%">
             <div class="container">
                 <h4><b><%= quiz[i].Name %></b></h4>
@@ -135,7 +164,7 @@
     <img src="images/arrow_left.svg" id="prev2">
     <div class="wrapper2">
         <% for(var i = 0; i < quiz.length; i++) {%>
-        <div class="card">
+        <div class="card" onclick="popUp(<%= i %>)" id="myBtn<%= i %>">
             <img src="images/<%= quiz[i].Image %>" alt="<%= quiz[i].Name %>" style="width:100%">
             <div class="container">
                 <h4><b><%= quiz[i].Name %></b></h4>
@@ -147,47 +176,52 @@
 
 
         <% for(var i = 0; i < quiz.length; i++) {%>
-        <div class="card">
+        <div class="card" onclick="popUp(<%= i %>)" id="myBtn<%= i %>">
             <img src="images/<%= quiz[i].Image %>" alt="<%= quiz[i].Name %>" style="width:100%">
             <div class="container">
                 <h4><b><%= quiz[i].Name %></b></h4>
                 <p>ID: <%= quiz[i].idquiz %></p>
             </div>
         </div>
-        <% } %><% for(var i = 0; i < quiz.length; i++) {%>
-        <div class="card">
+        <% } %>
+        <% for(var i = 0; i < quiz.length; i++) {%>
+        <div class="card" onclick="popUp(<%= i %>)" id="myBtn<%= i %>">
             <img src="images/<%= quiz[i].Image %>" alt="<%= quiz[i].Name %>" style="width:100%">
             <div class="container">
                 <h4><b><%= quiz[i].Name %></b></h4>
                 <p>ID: <%= quiz[i].idquiz %></p>
             </div>
         </div>
-        <% } %><% for(var i = 0; i < quiz.length; i++) {%>
-        <div class="card">
+        <% } %>
+        <% for(var i = 0; i < quiz.length; i++) {%>
+        <div class="card" onclick="popUp(<%= i %>)" id="myBtn<%= i %>">
             <img src="images/<%= quiz[i].Image %>" alt="<%= quiz[i].Name %>" style="width:100%">
             <div class="container">
                 <h4><b><%= quiz[i].Name %></b></h4>
                 <p>ID: <%= quiz[i].idquiz %></p>
             </div>
         </div>
-        <% } %><% for(var i = 0; i < quiz.length; i++) {%>
-        <div class="card">
+        <% } %>
+        <% for(var i = 0; i < quiz.length; i++) {%>
+        <div class="card" onclick="popUp(<%= i %>)" id="myBtn<%= i %>">
             <img src="images/<%= quiz[i].Image %>" alt="<%= quiz[i].Name %>" style="width:100%">
             <div class="container">
                 <h4><b><%= quiz[i].Name %></b></h4>
                 <p>ID: <%= quiz[i].idquiz %></p>
             </div>
         </div>
-        <% } %><% for(var i = 0; i < quiz.length; i++) {%>
-        <div class="card">
+        <% } %>
+        <% for(var i = 0; i < quiz.length; i++) {%>
+        <div class="card" onclick="popUp(<%= i %>)" id="myBtn<%= i %>">
             <img src="images/<%= quiz[i].Image %>" alt="<%= quiz[i].Name %>" style="width:100%">
             <div class="container">
                 <h4><b><%= quiz[i].Name %></b></h4>
                 <p>ID: <%= quiz[i].idquiz %></p>
             </div>
         </div>
-        <% } %><% for(var i = 0; i < quiz.length; i++) {%>
-        <div class="card">
+        <% } %>
+        <% for(var i = 0; i < quiz.length; i++) {%>
+        <div class="card" onclick="popUp(<%= i %>)" id="myBtn<%= i %>">
             <img src="images/<%= quiz[i].Image %>" alt="<%= quiz[i].Name %>" style="width:100%">
             <div class="container">
                 <h4><b><%= quiz[i].Name %></b></h4>
@@ -223,6 +257,29 @@
             scrollLeft: '+=205'
         }, 300, 'swing');
     });
+
+    function popUp(id) {
+        var modal = document.getElementById("myModal"+id);
+        modal.style.display = "block";
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    }
+    function closePopUp(id) {
+        var modal = document.getElementById("myModal"+id);
+        modal.style.display = "none";
+    }
+
+    function play(name) {
+        confirm("Do you want to PLAY this quiz?");
+    }
+    function buy(name) {
+        confirm("Do you want to BUY this quiz?");
+    }
+
 </script>
 </body>
 </html>
