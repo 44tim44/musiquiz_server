@@ -92,6 +92,16 @@ socket.on('connection', socket => {
                                 });
                             }
                             else console.log("Incorrect Answer from " + message.Username);
+
+                            /**
+                             *  Increment Lobby AnswersReceived with 1
+                             */
+                            var sql5 = "UPDATE lobby SET AnswersReceived = AnswersReceived + 1  WHERE LobbyPin = ?";
+                            con.query(sql5, [message.PIN, message.Username], function (err5, rows, result) {
+                                if (err5) throw err5;
+                                console.log("Lobby " + message.PIN + " AnswersReceived incremented.");
+                            });
+
                         });
                     }
                     else console.log("Temporary user doesn't exists in database.");
