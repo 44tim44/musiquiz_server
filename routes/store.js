@@ -18,7 +18,7 @@ function getQuiz(callback) {
     //numRows = result.length;
     console.log("Result: " + result);
     callback(err, result, result.length);
-    con.end();
+    //con.end();
   });
 }
 
