@@ -14,12 +14,46 @@
     <li class="answer_box" id="answer_3"><%= answer3 %></li>
     <li class="answer_box" id="answer_4"><%= answer4 %></li>
 </ul>
+
+<h1 id="nextquest"></h1>
+<form type="submit" name="redirectQuest" method="post">
+</form>
+
+
+
+
 <script>
     var access_token = "<%= access_token %>";
     var spotify_uri = "<%= spotify_uri %>";
 </script>
 <script src="https://sdk.scdn.co/spotify-player.js"></script>
 <script>
+    function correctAnswer() {
+        const answer = document.getElementById('nextquest');
+        var biggersizeans;
+        var wronganswer;
+        var correctans = "<%= correctanswer %>";
+        answer.innerHTML = correctans;
+        var i;
+
+        for (i = 1; i < 5; i++) {
+            if (i == correctans) {
+                console.log("kom in i correct");
+                biggersizeans = document.getElementById("answer_" + correctans);
+            } else {
+                console.log("kom in i wrong");
+                wronganswer = document.getElementById("answer_" + i).style.opacity = "0.2";
+            }
+        }
+    }
+    setInterval(correctAnswer, 5000);
+    setInterval(redirect, 9000);
+
+    function redirect(){
+        document.redirectQuest.submit();
+    }
+
+
     window.onSpotifyWebPlaybackSDKReady = () => {
         const token = access_token;
         const player = new Spotify.Player({

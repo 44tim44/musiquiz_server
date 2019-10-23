@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var question_number = 0;
 
 const getDB = require("../public/javascripts/database").getDB;
 var con;
@@ -15,12 +16,22 @@ router.use(function(req,res,next) {
 });
 
 function getQuestion(callback) {
-  var sql = "SELECT * FROM question"
+  var id = 1;
+  var pin_lobby = 12345;
 
-  con.query(sql, function (err, result) {
+  var sql = "SELECT * FROM question WHERE quiz = ?"
+  var participant = "SELECT * FROM tempuser where lobbypin = 12345"
+
+  con.query(participant ,function (err ,result) {
+    if (err) throw err;
+    console.log("Participants: " + result.length);
+    //con.end();
+  });
+
+  con.query(sql, id ,function (err ,result) {
     if (err) throw err;
     console.log("Result: " + result);
-    callback(err, result);
+    callback(err ,result);
     //con.end();
   });
 }
@@ -30,12 +41,21 @@ router.get('/', function(req, res, next) {
   var access_token = res.app.get('access_token');
   var refresh_token = res.app.get('refresh_token');
 
-  getQuestion(function (err, sql_result) {
-    var obj = sql_result[0];
+  getQuestion(function (err ,sql_result) {
+    var obj = sql_result[question_number];
+    //question_number ++;
     socket.to('12345').emit('NewQuestion', obj);
-    res.render('question.html', { title: 'Musiquiz' , access_token, refresh_token, question: obj.Question, answer1: obj.Answer1, answer2: obj.Answer2, answer3: obj.Answer3, answer4: obj.Answer4, spotify_uri: obj.SpotifyURI});
+    res.render('question.html', { title: 'Musiquiz' , access_token, refresh_token, question: obj.Question, answer1: obj.Answer1, answer2: obj.Answer2, answer3: obj.Answer3, answer4: obj.Answer4, spotify_uri: obj.SpotifyURI, correctanswer: obj.CorrectAnswer});
   });
 });
+
+router.post('/', function(req, res) {
+  res.redirect('/question');
+})
+
+
+
+
 
 /**
  * wait_for_responses(amount = amount_of_players)
