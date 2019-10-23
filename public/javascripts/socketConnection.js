@@ -48,7 +48,7 @@ socket.on('connection', socket => {
         // Handle message.Username, message.Answer & message.QuestionNo
         var con = getDB();
 
-        var sql4 = "SELECT * FROM question WHERE LobbyPin = ?";
+        var sql4 = "SELECT * FROM lobby WHERE LobbyPin = ?";
 
         var sql = "SELECT * FROM lobby WHERE LobbyPin = ?";
         con.query(sql, message.PIN, function (err, result) {
