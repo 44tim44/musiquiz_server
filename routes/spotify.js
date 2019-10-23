@@ -8,6 +8,9 @@ var client_id = '727abe78888841138efa90ffe40ee81d'; // Your client id
 var client_secret = '95e3d8921acc4cc88d316f02153fe0bf'; // Your secret
 var redirect_uri = 'http://localhost:3000/spotify/callback'; // Your redirect uri
 
+const getDB = require("../public/javascripts/database").getDB;
+
+
 /**
  * Generates a random string containing numbers and letters
  * @param  {number} length The length of the string
@@ -93,6 +96,27 @@ router.get('/callback', function(req, res) {
                 request.get(options, function(error, response, body) {
                     console.log(body);
                     res.app.set('user_id', body.id);
+                    //addUser(body.id, body.display_name);
+                    var spotifyId = body.id;
+                    var display_name = body.display_name;
+                    var con = getDB();
+
+                    var sql = "SELECT * FROM user WHERE SpotifyID = ?";
+                    con.query(sql, spotifyId, function (err, result) {
+                        if (err) throw err;
+
+                        if(result[0] == undefined) {
+                            var now = new Date();
+                            var sql3 = "INSERT INTO user (SpotifyID, Username, CreatedAt, UpdatedAt) VALUES (?, ?, ?, ?)";
+                            con.query(sql3, [spotifyId, display_name, now, now], function (err, rows, result) {
+                                if (err) throw err;
+                                console.log("New user inserted to database.");
+                            });
+                        }
+
+                        else console.log("User already exists in database.");
+                    });
+
                 });
 
                 res.app.set('access_token', access_token);
@@ -137,4 +161,5 @@ router.get('/refresh_token', function(req, res) {
         }
     });
 });
+
 module.exports = router;
