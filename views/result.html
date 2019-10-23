@@ -3,9 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title><%= title %></title>
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+
 </head>
 <body>
+
+
+
+<div id="backtoLobby"> <a href="./lobby"> Back to lobby </a></div>
+
+<div id="resultDiv">
 <h1><%= title %></h1>
+<% for(var i = 0; i < Result.length; i++) {%>
+<div class="card">
+    <div class="container">
+        <h4><b><%= Result[i].Username %></b></h4>
+        <p> <%= Result[i].Score %></p>
+        <br>
+    </div>
+</div>
+<% } %>
+</div>
+
 
 </body>
 </html>
