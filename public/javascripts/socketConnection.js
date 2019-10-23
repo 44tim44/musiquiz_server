@@ -10,6 +10,7 @@ socket.on('connection', socket => {
         //Save user with username "message.Username" to mySQL DB
         var con = getDB();
         var response = "Empty";
+        var flag = -1;
 
         /**
          *  Checks if the supplied LobbyPIN is valid
@@ -34,17 +35,20 @@ socket.on('connection', socket => {
                         con.query(sql3, [message.PIN, message.Username], function (err, rows, result) {
                             if (err) throw err;
                             response = "1 temporary user inserted.";
+                            flag = 2;
                             console.log(response);
                         });
                     }
                     else {
                         response = "Temporary user already exists in database.";
+                        flag = 1;
                         console.log(response);
                     }
                 });
             }
             else {
                 response = "No Lobby with such PIN-code exists.";
+                flag = 0;
                 console.log(response);
             }
         });
@@ -53,7 +57,8 @@ socket.on('connection', socket => {
         socket.join(pin);
 
         socket.emit('JoinResponse', {
-            response: response
+            response: response,
+            flag: flag
         });
 
     });
