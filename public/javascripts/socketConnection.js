@@ -9,6 +9,7 @@ socket.on('connection', socket => {
         console.log(message);
         //Save user with username "message.Username" to mySQL DB
         var con = getDB();
+        var response = "Empty";
 
         /**
          *  Checks if the supplied LobbyPIN is valid
@@ -32,22 +33,27 @@ socket.on('connection', socket => {
                         var sql3 = "INSERT INTO tempuser (LobbyPin, Username) VALUES (?, ?)";
                         con.query(sql3, [message.PIN, message.Username], function (err, rows, result) {
                             if (err) throw err;
-                            console.log("1 temporary user inserted.");
+                            response = "1 temporary user inserted.";
+                            console.log(response);
                         });
                     }
-                    else console.log("Temporary user already exists in database.");
+                    else {
+                        response = "Temporary user already exists in database.";
+                        console.log(response);
+                    }
                 });
             }
-            else console.log("No Lobby with such PIN-code exists.");
+            else {
+                response = "No Lobby with such PIN-code exists.";
+                console.log(response);
+            }
         });
 
         var pin = message.PIN;
         socket.join(pin);
 
-        socket.emit('fromserver', {
-            response: "Your data arrived!",
-            packet: "This is another packet",
-            bajs: "Det här är en brun sak i porslinstronen"
+        socket.emit('JoinResponse', {
+            response: response
         });
 
     });
@@ -104,13 +110,17 @@ socket.on('connection', socket => {
 
                         });
                     }
-                    else console.log("Temporary user doesn't exists in database.");
+                    else {
+                        console.log("Temporary user doesn't exists in database.");
+                    }
                 });
             }
-            else console.log("No Lobby with such PIN-code exists.");
+            else {
+                console.log("No Lobby with such PIN-code exists.");
+            }
         });
 
-        socket.emit('fromserver', {
+        socket.emit('AnswerResponse', {
             response: "Your data arrived!"
         });
     });
