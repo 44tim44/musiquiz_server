@@ -8,7 +8,8 @@ function initDB() {
             port: 3001,
             database: "musiquizdb",
             user: "external",
-            password: "mqrootex"
+            password: "mqrootex",
+            multipleStatements: true
         });
 
         con.connect(function (err) {

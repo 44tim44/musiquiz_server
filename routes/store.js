@@ -11,14 +11,12 @@ router.use(function(req,res,next) {
   next();
 });
 
-function getQuiz(callback) {
-  var sql = "SELECT * FROM quiz"
-  con.query(sql, function (err, result) {
+function getData(id,callback) {
+  var sql = "SELECT * FROM quiz;SELECT Coins FROM user WHERE SpotifyID = ?"
+  con.query(sql,[id], function (err, result) {
     if (err) throw err;
-    //numRows = result.length;
     console.log("Result: " + result);
-    callback(err, result, result.length);
-    //con.end();
+    callback(err, result);
   });
 }
 
@@ -26,15 +24,12 @@ function getQuiz(callback) {
 router.get('/', function(req, res, next) {
   var access_token = res.app.get('access_token');
   var refresh_token = res.app.get('refresh_token');
-  getQuiz(function (err, sql_result,numRows) {
-    var obj = sql_result;
-    /*for(i = 0; i < numRows; i++){
-      obj = sql_result[i];
-    }*/
-
-    res.render('store.html', { title: 'Musiquiz' , access_token, refresh_token, quiz: obj, spotify_uri: obj.SpotifyURI});
+  var user_id = res.app.get('user_id');
+  getData(user_id,function (err, sql_result) {
+    var quiz = sql_result[0];
+    var coins = sql_result[1];
+    res.render('store.html', { title: 'Musiquiz' , access_token, refresh_token, quiz: quiz, coins: coins});
   });
-  //res.render('store.html', { title: 'Musiquiz' , access_token, refresh_token});
 });
 
 
