@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var question_number = 0;
+var numbof_questions;
 
 const getDB = require("../public/javascripts/database").getDB;
 var con;
@@ -15,12 +15,40 @@ router.use(function(req,res,next) {
   next();
 });
 
+function getNumbofQuestion(callback){
+    var numbof_quest = "SELECT quiz, count(*) as 'countquiz' FROM question WHERE quiz = 1"
+    var amount_quest = 0;
+    con.query(numbof_quest ,function (err ,result) {
+        if (err) throw err;
+        amount_quest = result[0].countquiz;
+        console.log("numberofquest: " + result[0].countquiz);
+        //con.end();
+        callback(err, amount_quest);
+    });
+
+}
+function getQuestionNumber(callback){
+    var pin_lobby = 12345;
+
+    var quest_numb = "SELECT currentquestion FROM lobby WHERE  lobbypin = ?"
+    var qurrent_quest = 0;
+    con.query(quest_numb, pin_lobby ,function (err ,result) {
+        if (err) throw err;
+        qurrent_quest = result[0].currentquestion;
+        console.log("currentquestion: " + result[0].currentquestion);
+        //con.end();
+        callback(err, qurrent_quest);
+    });
+
+}
+
 function getQuestion(callback) {
   var id = 1;
   var pin_lobby = 12345;
 
   var sql = "SELECT * FROM question WHERE quiz = ?"
   var participant = "SELECT * FROM tempuser where lobbypin = 12345"
+
 
   con.query(participant ,function (err ,result) {
     if (err) throw err;
@@ -41,15 +69,51 @@ router.get('/', function(req, res, next) {
   var access_token = res.app.get('access_token');
   var refresh_token = res.app.get('refresh_token');
 
-  getQuestion(function (err ,sql_result) {
-    var obj = sql_result[question_number];
-    //question_number ++;
-    socket.to('12345').emit('NewQuestion', obj);
-    res.render('question.html', { title: 'Musiquiz' , access_token, refresh_token, question: obj.Question, answer1: obj.Answer1, answer2: obj.Answer2, answer3: obj.Answer3, answer4: obj.Answer4, spotify_uri: obj.SpotifyURI, correctanswer: obj.CorrectAnswer});
-  });
+    getNumbofQuestion(function (err, result){
+        numbof_questions = result;
+
+
+        getQuestionNumber(function (err, qNumber){
+
+          if(numbof_questions > qNumber) {
+              getQuestion(function (err, sql_result) {
+                  var obj = sql_result[qNumber];
+                  socket.to('12345').emit('NewQuestion', obj);
+                  res.render('question.html', {
+                      title: 'Musiquiz',
+                      access_token,
+                      refresh_token,
+                      question: obj.Question,
+                      answer1: obj.Answer1,
+                      answer2: obj.Answer2,
+                      answer3: obj.Answer3,
+                      answer4: obj.Answer4,
+                      spotify_uri: obj.SpotifyURI,
+                      correctanswer: obj.CorrectAnswer
+                  });
+              });
+          }
+          else{
+              //Sätt Databas-Lobby-Currentquiz till 0 igen
+              res.render('result.html', {
+                  title: 'Musiquiz'
+              });
+            };
+        });
+    });
 });
 
 router.post('/', function(req, res) {
+    //currentquestion +1 i databas
+    var lobby_pin = 12345;
+    var update_quest;
+    update_quest = "UPDATE lobby SET currentquestion = currentquestion + 1  WHERE LobbyPin = ?";
+
+    con.query(update_quest, lobby_pin ,function (err ,result) {
+        if (err) throw err;
+        console.log("Question number: " + result);
+        con.end();
+    });
   res.redirect('/question');
 })
 
