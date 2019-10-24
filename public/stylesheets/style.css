@@ -29,9 +29,19 @@ a {
 }
 #backtoLobby{
   position: absolute;
-  left: 0;
-  top: 0;
-  margin: 20px;
+  left: 20px;
+  top: 20px;
+
+  font-family: Alegreya Sans;
+  font-style: italic;
+  font-weight: 900;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  color: #000000;
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 }
 
 .question {
