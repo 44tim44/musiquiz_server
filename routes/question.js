@@ -87,6 +87,28 @@ function getHighscore(callback) {
     });
 }
 
+
+function dbLoop() {
+    var pin_lobby = 12345;
+    var interval = setInterval(function(){
+
+        var sql = "SELECT AnswersReceived FROM lobby WHERE LobbyPin = ? ; SELECT * FROM tempuser WHERE LobbyPin = ?";
+        con.query(sql, [pin_lobby, pin_lobby], function (err, result) {
+            if (err) throw err;
+            if (result[0][0].AnswersReceived >= result[1].length /*&& song.time >= song.duration */) {
+
+                var sql2 = "UPDATE lobby SET AnswersReceived = 0 WHERE LobbyPin = ?";
+                con.query(sql2, pin_lobby, function (err, result) {
+                    if (err) throw err;
+                    socket.emit('AllAnswersReceived', "Hej");
+                    clearInterval(interval);
+                });
+
+            }
+        });
+    }, 2000);
+}
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   var access_token = res.app.get('access_token');
@@ -115,6 +137,7 @@ router.get('/', function(req, res, next) {
                       correctanswer: obj.CorrectAnswer,
                       pincode: '12345'
                   });
+                  dbLoop();
               });
           }
           else{
