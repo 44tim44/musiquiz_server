@@ -5,6 +5,7 @@
     <title>Title</title>
     <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans:400,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js"></script>
 </head>
 <body>
 <div class="question"><%= question %></div>
@@ -19,13 +20,11 @@
 <form type="submit" name="redirectQuest" method="post">
 </form>
 
-
-
-
 <script>
     var access_token = "<%= access_token %>";
     var spotify_uri = "<%= spotify_uri %>";
     var pincode = "<%= pincode %>";
+    var correctans = "<%= correctanswer %>";
 </script>
 <script src="https://sdk.scdn.co/spotify-player.js"></script>
 <script>
@@ -93,6 +92,6 @@
         player.connect();
     };
 </script>
-<script src="../public/javascripts/questionListener.js"></script>
+<script src="javascripts/questionListener.js"></script>
 </body>
 </html>
