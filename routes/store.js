@@ -21,6 +21,15 @@ function getData(id,callback) {
     callback(err, result);
   });
 }
+function setData(user_id, quiz_id,callback) {
+  var sql = "INSERT INTO user_quiz (UserID, QuizID) VALUES ((SELECT idUser FROM user WHERE SpotifyID = ?), ?);" +
+      "UPDATE user SET Coins = (Coins - (SELECT CostCoin FROM quiz where idquiz= ?)) WHERE SpotifyID = ?";
+  con.query(sql, [user_id, quiz_id, quiz_id, user_id], function (err, result) {
+    if (err) throw err;
+    console.log(result.affectedRows + " record(s) updated");
+    callback(err, result);
+  });
+}
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -35,5 +44,22 @@ router.get('/', function(req, res, next) {
   });
 });
 
+router.post('/', function (req, res) {
+  var play = req.body.playThisQuiz;
+  var buy = req.body.buyThisQuiz;
+  if(play != undefined){
+    //go to lobby with play as quiz-id
 
+    res.redirect('lobby');
+  }
+  if(buy != undefined){
+    //update database with user-id and buy as quiz-id
+    var user_id = res.app.get('user_id');
+
+    setData(user_id, buy, function (err, sql_result) {
+      res.redirect('store');
+    });
+  }
+  console.log(play + ", " + buy);
+})
 module.exports = router;
