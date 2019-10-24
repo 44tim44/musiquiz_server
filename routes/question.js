@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var numbof_questions;
+var user;
+var glob_lobbypin;
+var glob_quizId;
 
 const getDB = require("../public/javascripts/database").getDB;
 var con;
@@ -15,11 +18,37 @@ router.use(function(req,res,next) {
   next();
 });
 
-function getNumbofQuestion(callback){
-    var numbof_quest = "SELECT quiz, count(*) as 'countquiz' FROM question WHERE quiz = 1"
-    var amount_quest = 0;
-    con.query(numbof_quest ,function (err ,result) {
+function getLobbyid() {
+
+    var lobby_pin = "SELECT LobbyPin FROM lobby WHERE SpotifyID = ?"
+
+    con.query(lobby_pin, user ,function (err ,result) {
         if (err) throw err;
+        glob_lobbypin = result[0].LobbyPin;
+        console.log("lobbypin: " + result[0].LobbyPin);
+        //con.end();
+        //callback(err, amount_quest);
+    });
+
+}
+function getquizId() {
+    var quiz_id = "SELECT CurrentQuiz FROM lobby WHERE SpotifyID = ?"
+
+    con.query(quiz_id, user ,function (err ,result) {
+        if (err) throw err;
+        glob_quizId = result[0].CurrentQuiz;
+        console.log("quizID: " + glob_quizId);
+        //con.end();
+        //callback(err, amount_quest);
+    });
+
+}
+
+function getNumbofQuestion(callback){
+    var numbof_quest = "SELECT quiz, count(*) as 'countquiz' FROM question WHERE quiz = ?"
+    con.query(numbof_quest, 1 ,function (err ,result) {
+        if (err) throw err;
+        var amount_quest = 0;
         amount_quest = result[0].countquiz;
         console.log("numberofquest: " + result[0].countquiz);
         //con.end();
@@ -28,11 +57,10 @@ function getNumbofQuestion(callback){
 
 }
 function getQuestionNumber(callback){
-    var pin_lobby = 12345;
 
     var quest_numb = "SELECT currentquestion FROM lobby WHERE lobbypin = ?"
     var qurrent_quest = 0;
-    con.query(quest_numb, pin_lobby ,function (err ,result) {
+    con.query(quest_numb, glob_lobbypin ,function (err ,result) {
         if (err) throw err;
         qurrent_quest = result[0].currentquestion;
         console.log("currentquestion: " + result[0].currentquestion);
@@ -44,13 +72,12 @@ function getQuestionNumber(callback){
 
 function getQuestion(callback) {
   var id = 1;
-  var pin_lobby = 12345;
 
   var sql = "SELECT * FROM question WHERE quiz = ?"
-  var participant = "SELECT * FROM tempuser where lobbypin = 12345"
+  var participant = "SELECT * FROM tempuser where lobbypin = ?"
 
 
-  con.query(participant ,function (err ,result) {
+  con.query(participant, glob_lobbypin ,function (err ,result) {
     if (err) throw err;
     console.log("Participants: " + result.length);
     //con.end();
@@ -66,20 +93,17 @@ function getQuestion(callback) {
 function getZeroquest() {
     var questto_zero = "UPDATE lobby SET currentquestion = 0  WHERE LobbyPin = ?";
 
-    con.query(questto_zero, 12345 ,function (err ,result) {
+    con.query(questto_zero, glob_lobbypin ,function (err ,result) {
         if (err) throw err;
         console.log("Question number: " + result);
     });
 }
 
 function getHighscore(callback) {
-    var id = 1;
-    var pin_lobby = 12345;
-
     var result_list = "SELECT * FROM tempuser WHERE lobbypin = ? ORDER BY Score DESC "
 
 
-    con.query(result_list, pin_lobby ,function (err ,result) {
+    con.query(result_list, glob_lobbypin ,function (err ,result) {
         if (err) throw err;
         console.log("Result: " + result);
         callback(err ,result);
@@ -113,7 +137,12 @@ function dbLoop() {
 router.get('/', function(req, res, next) {
   var access_token = res.app.get('access_token');
   var refresh_token = res.app.get('refresh_token');
+  user = res.app.get('user_id');
 
+    getLobbyid();
+    getquizId();
+
+    console.log(user);
     getNumbofQuestion(function (err, result){
         numbof_questions = result;
 
@@ -160,12 +189,10 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res) {
-    //currentquestion +1 i databas
-    var lobby_pin = 12345;
     var update_quest;
     update_quest = "UPDATE lobby SET currentquestion = currentquestion + 1  WHERE LobbyPin = ?";
 
-    con.query(update_quest, lobby_pin ,function (err ,result) {
+    con.query(update_quest, glob_lobbypin ,function (err ,result) {
         if (err) throw err;
         console.log("Question number: " + result);
     });
