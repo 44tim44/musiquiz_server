@@ -11,7 +11,7 @@ function correctAnswer() {
     const answer = document.getElementById('nextquest');
     var biggersizeans;
     var wronganswer;
-    var correctans = "<%= correctanswer %>";
+
     answer.innerHTML = correctans;
     var i;
 

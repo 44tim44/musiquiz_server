@@ -12,34 +12,24 @@ const getSocket = require("../public/javascripts/socketConnection").getSocket;
 var socket;
 
 router.use(function(req,res,next) {
-  console.log("Retrieved DB.")
-  con = getDB();
-  socket = getSocket();
-  next();
+    console.log("Retrieved DB.")
+    con = getDB();
+    socket = getSocket();
+    next();
 });
 
-function getLobbyid() {
+function getLobbyAndQuizid(callback) {
 
-    var lobby_pin = "SELECT LobbyPin FROM lobby WHERE SpotifyID = ?"
+    var lobby_pin_quiz_id = "SELECT LobbyPin FROM lobby WHERE SpotifyID = ?; SELECT CurrentQuiz FROM lobby WHERE SpotifyID = ?"
 
-    con.query(lobby_pin, user ,function (err ,result) {
+    con.query(lobby_pin_quiz_id, [user, user] ,function (err ,result) {
         if (err) throw err;
-        glob_lobbypin = result[0].LobbyPin;
-        console.log("lobbypin: " + result[0].LobbyPin);
-        //con.end();
-        //callback(err, amount_quest);
-    });
-
-}
-function getquizId() {
-    var quiz_id = "SELECT CurrentQuiz FROM lobby WHERE SpotifyID = ?"
-
-    con.query(quiz_id, user ,function (err ,result) {
-        if (err) throw err;
-        glob_quizId = result[0].CurrentQuiz;
+        glob_lobbypin = result[0][0].LobbyPin;
+        console.log("lobbypin: " + glob_lobbypin);
+        glob_quizId = result[1][0].CurrentQuiz;
         console.log("quizID: " + glob_quizId);
         //con.end();
-        //callback(err, amount_quest);
+        callback(err, "Done");
     });
 
 }
@@ -71,31 +61,34 @@ function getQuestionNumber(callback){
 }
 
 function getQuestion(callback) {
-  var id = 1;
+    var id = 1;
 
-  var sql = "SELECT * FROM question WHERE quiz = ?"
-  var participant = "SELECT * FROM tempuser where lobbypin = ?"
+    var sql = "SELECT * FROM question WHERE quiz = ?"
+    var participant = "SELECT * FROM tempuser where lobbypin = ?"
 
 
-  con.query(participant, glob_lobbypin ,function (err ,result) {
-    if (err) throw err;
-    console.log("Participants: " + result.length);
-    //con.end();
-  });
+    con.query(participant, glob_lobbypin ,function (err ,result) {
+        if (err) throw err;
+        console.log("Participants: " + result.length);
+        //con.end();
+    });
 
-  con.query(sql, id ,function (err ,result) {
-    if (err) throw err;
-    console.log("Result: " + result);
-    callback(err ,result);
-    //con.end();
-  });
+    con.query(sql, id ,function (err ,result) {
+        if (err) throw err;
+        console.log("Result: " + result);
+        callback(err ,result);
+        //con.end();
+    });
 }
-function getZeroquest() {
+
+
+function getZeroquest(callback) {
     var questto_zero = "UPDATE lobby SET currentquestion = 0  WHERE LobbyPin = ?";
 
     con.query(questto_zero, glob_lobbypin ,function (err ,result) {
         if (err) throw err;
         console.log("Question number: " + result);
+        callback();
     });
 }
 
@@ -113,16 +106,15 @@ function getHighscore(callback) {
 
 
 function dbLoop() {
-    var pin_lobby = 12345;
     var interval = setInterval(function(){
 
         var sql = "SELECT AnswersReceived FROM lobby WHERE LobbyPin = ? ; SELECT * FROM tempuser WHERE LobbyPin = ?";
-        con.query(sql, [pin_lobby, pin_lobby], function (err, result) {
+        con.query(sql, [glob_lobbypin, glob_lobbypin], function (err, result) {
             if (err) throw err;
             if (result[0][0].AnswersReceived >= result[1].length /*&& song.time >= song.duration */) {
 
                 var sql2 = "UPDATE lobby SET AnswersReceived = 0 WHERE LobbyPin = ?";
-                con.query(sql2, pin_lobby, function (err, result) {
+                con.query(sql2, glob_lobbypin, function (err, result) {
                     if (err) throw err;
                     socket.emit('AllAnswersReceived', "Hej");
                     clearInterval(interval);
@@ -135,55 +127,57 @@ function dbLoop() {
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  var access_token = res.app.get('access_token');
-  var refresh_token = res.app.get('refresh_token');
-  user = res.app.get('user_id');
+    var access_token = res.app.get('access_token');
+    var refresh_token = res.app.get('refresh_token');
+    user = res.app.get('user_id');
+    /*getquizId();*/
 
-    getLobbyid();
-    getquizId();
+    getLobbyAndQuizid(function (err, result){
 
-    console.log(user);
-    getNumbofQuestion(function (err, result){
-        numbof_questions = result;
+        console.log(user);
+        getNumbofQuestion(function (err, result){
+            numbof_questions = result;
 
 
-        getQuestionNumber(function (err, qNumber){
+            getQuestionNumber(function (err, qNumber){
 
-          if(numbof_questions > qNumber) {
-              getQuestion(function (err, sql_result) {
-                  var obj = sql_result[qNumber];
-                  socket.to('12345').emit('NewQuestion', obj);
-                  res.render('question.html', {
-                      title: 'Musiquiz',
-                      access_token,
-                      refresh_token,
-                      question: obj.Question,
-                      answer1: obj.Answer1,
-                      answer2: obj.Answer2,
-                      answer3: obj.Answer3,
-                      answer4: obj.Answer4,
-                      spotify_uri: obj.SpotifyURI,
-                      correctanswer: obj.CorrectAnswer,
-                      pincode: '12345'
-                  });
-                  dbLoop();
-              });
-          }
-          else{
-              //Sätt Databas-Lobby-Currentquiz till 0 igen
+                if(numbof_questions > qNumber) {
+                    getQuestion(function (err, sql_result) {
+                        var obj = sql_result[qNumber];
+                        socket.to('12345').emit('NewQuestion', obj);
+                        res.render('question.html', {
+                            title: 'Musiquiz',
+                            access_token,
+                            refresh_token,
+                            question: obj.Question,
+                            answer1: obj.Answer1,
+                            answer2: obj.Answer2,
+                            answer3: obj.Answer3,
+                            answer4: obj.Answer4,
+                            spotify_uri: obj.SpotifyURI,
+                            correctanswer: obj.CorrectAnswer,
+                            pincode: '12345'
+                        });
+                        dbLoop();
+                    });
+                }
+                else{
+                    //Sätt Databas-Lobby-Currentquiz till 0 igen
 
-              getHighscore(function (err, result) {
-                  getZeroquest();
-                  var result_list = result;
-                  res.render('result.html', {
-                      title: 'Musiquiz',
-                      access_token,
-                      refresh_token,
-                      Result: result
-                  });
-              });
+                    getHighscore(function (err, result) {
+                        getZeroquest(function (err){
+                            var result_list = result;
+                            res.render('result.html', {
+                                title: 'Musiquiz',
+                                access_token,
+                                refresh_token,
+                                Result: result
+                            });
 
-            };
+                        });
+                    });
+                }
+            });
         });
     });
 });
@@ -196,7 +190,7 @@ router.post('/', function(req, res) {
         if (err) throw err;
         console.log("Question number: " + result);
     });
-  res.redirect('/question');
+    res.redirect('/question');
 })
 
 
