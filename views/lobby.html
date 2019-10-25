@@ -16,6 +16,10 @@
     <H1>PIN: <%= pincode %></H1>
     <a href="../question" id="lobby-start">Start</a>
 
+    <div class="lobby-exit">
+        <form type="submit" id="lobby-exit-form" method="post"></form>
+        <a href="javascript:{}" onclick="if(confirm('Are you sure you want to quit?')) { document.getElementById('lobby-exit-form').submit(); } ">X</a>
+    </div>
 </div>
 <div id="participantTable">
     <table id="pTable">

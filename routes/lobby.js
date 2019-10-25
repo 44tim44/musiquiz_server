@@ -80,7 +80,6 @@ function getLobbyAndQuizid(callback) {
 }
 
 function getParticipants(callback) {
-
     var sql = "SELECT * FROM tempuser where lobbypin = ? ORDER BY Score DESC, idTempuser ASC";
 
     con.query(sql, glob_lobbypin,function (err ,result) {
@@ -132,6 +131,23 @@ router.post('/question', function (req, res) {
        res.redirect('/question');
    });
 
+});
+
+router.post('/', function (req, res) {
+
+    var getLobby = "SELECT * FROM lobby WHERE lobbypin = ?"
+    con.query(getLobby, glob_lobbypin, function (err, result) {
+        if (err) throw err;
+
+        if(result[0] != undefined){
+            var deleteLobby = "DELETE FROM lobby WHERE LobbyPin = ? ";
+            con.query(deleteLobby, glob_lobbypin, function (err, rows, result) {
+                if (err) throw err;
+                console.log("Lobby successfully deleted");
+                res.redirect('/store');
+            });
+        }
+    });
 });
 
 module.exports = router;
