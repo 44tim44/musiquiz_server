@@ -175,6 +175,7 @@ router.get('/', function(req, res, next) {
                         getduration(access_token, obj.SpotifyURI, function (err,duration) {
                         socket.to(glob_lobbypin).emit('NewQuestion', {
                             Question: obj,
+                            QuestionNo: qNumber,
                             TimeStart: Date.now() + 1000,
                             TimeStop: Date.now() + 1000 + duration
                         });
@@ -202,6 +203,7 @@ router.get('/', function(req, res, next) {
 
                     getHighscore(function (err, result) {
                         resetQuestionCounter(function (err){
+                            socket.to(glob_lobbypin).emit('QuizEnd', "Quiz has ended");
                             res.render('result.html', {
                                 title: 'Musiquiz',
                                 access_token,
