@@ -19,6 +19,7 @@ router.use(function(req,res,next) {
         res.redirect("/");
         return;
     }
+    glob_quizId = res.app.get('quiz_id');
     console.log("Retrieved DB.")
     con = getDB();
     socket = getSocket();
@@ -43,7 +44,7 @@ function getLobbyAndQuizid(callback) {
 
 function getNumbofQuestion(callback){
     var numbof_quest = "SELECT quiz, count(*) as 'countquiz' FROM question WHERE quiz = ?"
-    con.query(numbof_quest, 1 ,function (err ,result) {
+    con.query(numbof_quest, glob_quizId ,function (err ,result) {
         if (err) throw err;
         var amount_quest = 0;
         amount_quest = result[0].countquiz;
@@ -68,7 +69,7 @@ function getQuestionNumber(callback){
 }
 
 function getQuestion(callback) {
-    var id = 1;
+    var id = glob_quizId;
 
     var sql = "SELECT * FROM question WHERE quiz = ?"
     var participant = "SELECT * FROM tempuser where lobbypin = ?"

@@ -40,6 +40,7 @@ router.get('/', function(req, res, next) {
   var access_token = res.app.get('access_token');
   var refresh_token = res.app.get('refresh_token');
   var user_id = res.app.get('user_id');
+  res.app.set('quiz_id', 1);
   getData(user_id,function (err, sql_result) {
     var quiz = sql_result[0];
     var coins = sql_result[1];
@@ -53,7 +54,7 @@ router.post('/', function (req, res) {
   var buy = req.body.buyThisQuiz;
   if(play != undefined){
     //go to lobby with play as quiz-id
-
+    res.app.set('quiz_id', play);
     res.redirect('lobby');
   }
   if(buy != undefined){

@@ -16,6 +16,7 @@ router.use(function (req, res, next) {
         res.redirect("/");
         return;
     }
+    glob_quizId =  res.app.get('quiz_id');
     console.log("Retrieved DB.");
     con = getDB();
     socket = getSocket();
@@ -33,8 +34,8 @@ function getLobbyAndQuizid(callback) {
             /**
              *  Insert new Lobby in Database
              */
-            const insert_lobby = "INSERT INTO lobby (SpotifyID) VALUES (?)";
-            con.query(insert_lobby, user, function (err, rows, result) {
+            const insert_lobby = "INSERT INTO lobby (SpotifyID, CurrentQuiz) VALUES (?, ?)";
+            con.query(insert_lobby, [user, glob_quizId], function (err, rows, result) {
                 if (err) throw err;
 
                 /**
@@ -90,6 +91,15 @@ function getParticipants(callback) {
     });
 }
 
+function getQuizData(user,callback) {
+    var sql = "SELECT quiz.* FROM quiz INNER JOIN user_quiz ON quiz.idquiz = user_quiz.QuizID INNER JOIN user ON user_quiz.UserID = user.idUser WHERE user.SpotifyID = ?"
+    con.query(sql,[user], function (err, result) {
+        if (err) throw err;
+        console.log("Result: " + result);
+        callback(err, result);
+    });
+}
+
 function dbLoop(participants) {
     var lobbyLoop = setInterval(function(){
 
@@ -107,16 +117,45 @@ router.get('/', function (req, res) {
     user = res.app.get('user_id');
     getLobbyAndQuizid(function (err, result) {
         getParticipants(function (err, participants) {
-            res.render('lobby.html', {
-                title: 'Musiquiz',
-                participants: participants,
-                pincode: glob_lobbypin
-            });
-            dbLoop(participants);
+            getQuizData(user,function (err, results) {
+                res.app.set('quiz_id', glob_quizId);
+                res.render('lobby.html', {
+                    title: 'Musiquiz',
+                    participants: participants,
+                    pincode: glob_lobbypin,
+                    quizzes: results,
+                    currentQuiz:glob_quizId
+                });
+                dbLoop(participants);
+            })
         });
     });
 });
 
+function setLobbyData(play,callback) {
+    var sql = "UPDATE lobby SET CurrentQuiz = ? WHERE SpotifyID = ? AND LobbyPin = ?";
+    con.query(sql, [play, user, glob_lobbypin], function (err, result) {
+        if (err) throw err;
+        console.log(result.affectedRows + " record(s) updated");
+        callback(err, result);
+    });
+}
+router.post('/start', function (req, res) {
+    var play = req.body.quizToPlay;
+
+    if(play != undefined){
+        setLobbyData(play,function (err, sql_result) {
+            updateScore(function (err, result) {
+                console.log("PLAYING THIS SHIT: " + play);
+                res.app.set('quiz_id',play);
+                res.redirect('/question');
+            });
+        });
+    }
+    else{
+        res.redirect('lobby');
+    }
+});
 function updateScore(callback){
     var update_score = "UPDATE tempuser SET Score = 0 WHERE LobbyPin = ?";
     con.query(update_score, glob_lobbypin, function (err, result) {
@@ -125,13 +164,6 @@ function updateScore(callback){
         callback(err ,result);
     });
 }
-
-router.post('/start', function (req, res) {
-   updateScore(function (err, result) {
-       res.redirect('/question');
-   });
-
-});
 
 router.post('/exit', function (req, res) {
 

@@ -14,8 +14,20 @@
     <img src="images/musiquiz.png" id="musiquiz">
 
     <H1>PIN: <%= pincode %></H1>
-    <form method="post" action="/lobby/start">
-        <button type="submit">Start</button>
+    <form action="/lobby/start" method="POST" >
+        <select name="quizToPlay">
+            <% for(var i = 0; i < quizzes.length; i++) {%>
+                <% if(quizzes[i].idquiz == currentQuiz) {%>
+                    <option value="<%= quizzes[i].idquiz %>"><%= quizzes[i].Name %></option>
+                <% } %>
+            <% } %>
+            <% for(var i = 0; i < quizzes.length; i++) {%>
+                <% if(quizzes[i].idquiz != currentQuiz) {%>
+                    <option value="<%= quizzes[i].idquiz %>"><%= quizzes[i].Name %></option>
+                <% } %>
+            <% } %>
+        </select>
+        <input type="submit" value="Start">
     </form>
 
     <div class="exit-button">

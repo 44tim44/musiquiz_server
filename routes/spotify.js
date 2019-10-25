@@ -96,6 +96,7 @@ router.get('/callback', function(req, res) {
                 request.get(options, function(error, response, body) {
                     console.log(body);
                     res.app.set('user_id', body.id);
+                    res.app.set('quiz_id', 1);
                     //addUser(body.id, body.display_name);
                     var spotifyId = body.id;
                     var display_name = body.display_name;
