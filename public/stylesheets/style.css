@@ -47,6 +47,14 @@ a {
   background-color:#FFA500 ;
 
 }
+
+#time{
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: 50px;
+  margin: 20px;
+}
 #backtoLobby{
   position: absolute;
   left: 20px;
@@ -69,6 +77,11 @@ a {
   vertical-align: middle;
   font-size: 6vh;
   line-height: 35vh;
+}
+#pincode{
+  text-align: center;
+  font-size: 30px;
+  top: 0;
 }
 
 .answer_table {
