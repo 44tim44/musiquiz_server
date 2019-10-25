@@ -126,7 +126,7 @@ function updateScore(callback){
     });
 }
 
-router.post('/question', function (req, res) {
+router.post('/start', function (req, res) {
    updateScore(function (err, result) {
        res.redirect('/question');
    });
