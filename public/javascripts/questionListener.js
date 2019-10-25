@@ -2,7 +2,7 @@ var socket = io('http://localhost:8040');
 
 socket.on('AllAnswersReceived', function(msg){
     correctAnswer();
-    setTimeout(redirect, 40000);
+    setTimeout(redirect, 400);
     return;
 });
 
