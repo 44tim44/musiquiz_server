@@ -48,6 +48,39 @@ a {
     width: 40%;
     float: right;
 }
+.resultTable{
+    width: 100%;
+    border-spacing:0 5px;
+    padding-right: 6vw;
+}
+#tdUsername{
+float: left;
+}
+#tdScore{
+    float: right;
+}
+#resultHeader{
+    width: 100%;
+}
+.userScore{
+    border: solid white 3px;
+    text-shadow: -1px 1px 0 white, 1px 1px 0 white, 1px -1px 0 white, -1px -1px 0 white;
+
+    font-size: 25px;
+    color: #000000;
+    padding: 2px 20px;
+}
+table.userScore tr:nth-child(even) {
+     background: #09BEE5;
+ }
+table.userScore tr:nth-child(odd) {
+    background: #247ED0;
+}
+.placement{
+    color: gold;
+    font-size: 40px;
+}
+
 
 #pTable {
     margin-top: 50px;
@@ -92,8 +125,7 @@ a {
     margin-top: 100px;
     margin-left: auto;
     margin-right: auto;
-    background-color: #FFA500;
-
+    text-align: center;
 }
 
 #time{

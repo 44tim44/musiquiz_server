@@ -2,17 +2,15 @@ var socket = io('http://localhost:8040');
 
 socket.on('AllAnswersReceived', function(msg){
     correctAnswer();
-    setTimeout(redirect, 40000);
+    setTimeout(redirect, 400);
     return;
 });
 
 
 function correctAnswer() {
-    const answer = document.getElementById('nextquest');
     var biggersizeans;
     var wronganswer;
 
-    answer.innerHTML = correctans;
     var i;
 
     for (i = 1; i < 5; i++) {
@@ -44,11 +42,16 @@ function startTimer(duration, display) {
         }
     }, 1000);
 }
+function millisToMinutesAndSeconds(millis) {
+    var minutes = Math.floor(millis / 60000);
+    var seconds = ((millis % 60000) / 1000).toFixed(0);
+    return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+}
 
 window.onload = function () {
-    var oneMinute = 60,
+    var song_length = Math.floor(duration / 1000),
         display = document.querySelector('#time');
-    startTimer(oneMinute, display);
+    startTimer(song_length, display);
 };
 
 

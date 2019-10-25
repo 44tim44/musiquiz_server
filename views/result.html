@@ -14,18 +14,25 @@
 <div id="backtoLobby">  Back to lobby </div>
 
 <div id="resultDiv">
-<h1><%= title %></h1>
-<% for(var i = 0; i < Result.length; i++) {%>
-<div class="card">
-    <div class="container">
-        <h4><b><%= Result[i].Username %></b></h4>
-        <p> <%= Result[i].Score %></p>
-        <br>
+    <div id="resultHeader"><img src="images/MusiquizFitted.png">
     </div>
-</div>
-<% } %>
+    <div>
+        <table class="resultTable">
+            <tbody>
+            <% var p = 1 %>
+            <% for(var i = 0; i < Result.length; i++) {%>
+
+            <tr>
+                <td class="placement"><div><%= p++ %> </div></td><td class="userScore"><div id="tdUsername"><%= Result[i].Username%> </div><div id="tdScore"> <%= Result[i].Score%></div></td>
+            </tr>
+            <% } %>
+            </tbody>
+        </table>
+    </div>
+
 </div>
 
 
 </body>
+
 </html>

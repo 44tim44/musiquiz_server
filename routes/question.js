@@ -106,7 +106,7 @@ function getHighscore(callback) {
         //con.end();
     });
 }
-function getduration(access_token, spotify_uri) {
+function getduration(access_token, spotify_uri,callback) {
     const Http = new xml();
     var str = spotify_uri.split(":");
     var spotify_id = str[str.length - 1];
@@ -121,6 +121,7 @@ function getduration(access_token, spotify_uri) {
             console.log("ready")
             var Data = JSON.parse(Http.responseText);
             console.log(Data.duration_ms);
+            callback("no duration",Data.duration_ms);
         } else {
             console.log("not ready yet")
         }
@@ -167,7 +168,7 @@ router.get('/', function(req, res, next) {
                 if(numbof_questions > qNumber) {
                     getQuestion(function (err, sql_result) {
                         var obj = sql_result[qNumber];
-                        var data_dur = getduration(access_token, obj.SpotifyURI);
+                        getduration(access_token, obj.SpotifyURI, function (err,duration) {
                         socket.to(glob_lobbypin).emit('NewQuestion', obj);
                         res.render('question.html', {
                             title: 'Musiquiz',
@@ -181,8 +182,11 @@ router.get('/', function(req, res, next) {
                             spotify_uri: obj.SpotifyURI,
                             correctanswer: obj.CorrectAnswer,
                             pincode: glob_lobbypin,
+                            duration: duration
                         });
                         dbLoop();
+                        });
+
                     });
                 }
                 else{
