@@ -62,6 +62,9 @@ float: left;
 #resultHeader{
     width: 100%;
 }
+#exit_quest{
+
+}
 .userScore{
     border: solid white 3px;
     text-shadow: -1px 1px 0 white, 1px 1px 0 white, 1px -1px 0 white, -1px -1px 0 white;
