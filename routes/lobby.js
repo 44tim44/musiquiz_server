@@ -80,11 +80,10 @@ function getLobbyAndQuizid(callback) {
 }
 
 function getParticipants(callback) {
-    var pin_lobby = 12345;
 
     var sql = "SELECT * FROM tempuser where lobbypin = ? ORDER BY Score DESC, idTempuser ASC";
 
-    con.query(sql, [pin_lobby],function (err ,result) {
+    con.query(sql, glob_lobbypin,function (err ,result) {
         if (err) throw err;
         console.log("Participants: " + result.length);
         callback(err, result);
@@ -117,6 +116,22 @@ router.get('/', function (req, res) {
             dbLoop(participants);
         });
     });
+});
+
+function updateScore(callback){
+    var update_score = "UPDATE tempuser SET Score = 0 WHERE LobbyPin = ?";
+    con.query(update_score, glob_lobbypin, function (err, result) {
+        if (err) throw err;
+        console.log("Lobby score changed: " + result);
+        callback(err ,result);
+    });
+}
+
+router.post('/question', function (req, res) {
+   updateScore(function (err, result) {
+       res.redirect('/question');
+   });
+
 });
 
 module.exports = router;
