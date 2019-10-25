@@ -90,26 +90,56 @@ float: left;
 #resultHeader{
     width: 100%;
 }
-#exit_quest{
-
+#exit_quest {
 }
-.userScore{
+#userScore{
     border: solid white 3px;
-    text-shadow: -1px 1px 0 white, 1px 1px 0 white, 1px -1px 0 white, -1px -1px 0 white;
-
-    font-size: 25px;
+    -webkit-text-stroke-width: 3px;
+    -webkit-text-stroke-color: white;
+    font-size: 45px;
     color: #000000;
     padding: 2px 20px;
 }
-table.userScore tr:nth-child(even) {
-     background: #09BEE5;
- }
-table.userScore tr:nth-child(odd) {
-    background: #247ED0;
+.userScore2 {
+    background: gold;
 }
+.userScore3 {
+    background: silver;
+}
+.userScore4 {
+    background: saddlebrown;
+}
+.userScore5 {
+    background: yellow;
+}
+.userScore6 {
+    background: blue;
+}
+.userScore7 {
+    background: orange;
+}
+.userScore8 {
+    background: purple;
+}
+.userScore9 {
+    background: cadetblue;
+}
+.userScore10 {
+    background: chartreuse;
+}
+.userScore11 {
+    background: goldenrod;
+}
+.userScore12 {
+    background: green;
+}
+
+
+
+
 .placement{
     color: gold;
-    font-size: 40px;
+    font-size: 50px;
 }
 
 

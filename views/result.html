@@ -18,12 +18,12 @@
     </div>
     <div>
         <table class="resultTable">
-            <tbody>
+            <tbody class="tbodyresult">
             <% var p = 1 %>
             <% for(var i = 0; i < Result.length; i++) {%>
 
             <tr>
-                <td class="placement"><div><%= p++ %> </div></td><td class="userScore"><div id="tdUsername"><%= Result[i].Username%> </div><div id="tdScore"> <%= Result[i].Score%></div></td>
+                <td class="placement"><div><%= p++ %> </div></td><td id="userScore" class='userScore<%= p %>'><div id="tdUsername"><%= Result[i].Username%> </div><div id="tdScore"> <%= Result[i].Score%></div></td>
             </tr>
             <% } %>
             </tbody>
