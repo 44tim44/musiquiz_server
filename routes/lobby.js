@@ -4,25 +4,29 @@ var router = express.Router();
 const getDB = require("../public/javascripts/database").getDB;
 var con;
 
-router.use(function(req,res,next) {
+router.use(function (req, res, next) {
     console.log("Retrieved DB.")
     con = getDB();
     next();
 });
 
-function getQuestion(callback) {
-    var sql = "SELECT * FROM question"
+function getParticipants(callback) {
+    var pin_lobby = 12345;
 
-    con.query(sql, function (err, result) {
+    var sql = "SELECT * FROM tempuser where lobbypin = ? ORDER BY Score DESC, idTempuser ASC"
+
+    con.query(sql, [pin_lobby],function (err ,result) {
         if (err) throw err;
-        console.log("Result: " + result);
+        console.log("Participants: " + result.length);
         callback(err, result);
-        con.end();
+        //con.end();
     });
 }
 
-router.get('/', function(req, res) {
-    res.render('lobby.html', { title: 'Musiquiz'});
+router.get('/', function (req, res) {
+    getParticipants(function(err, sql_result){
+        res.render('lobby.html', {title: 'Musiquiz', userName:sql_result});
+    });
 });
 
 module.exports = router;

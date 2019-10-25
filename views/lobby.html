@@ -2,13 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title><%= title %></title>
+    <title>Title</title>
+    <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans:400,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
 </head>
 <body>
-<h1><%= title %></h1>
-<h1> Du är nu i lobbyn</h1>
-<h5> Dessa är inloggade </h5>
 
+<div id = "lobbyLeftDiv">
+    <img src="images/musiquiz.png" id="musiquiz">
+
+    <H1>PIN: 12345</H1>
+
+</div>
+
+<div id="participantTable">
+    <table class="pTable">
+        <tbody>
+        <% for(var i = 0; i < userName.length; i++) {%>
+        <tr>
+            <td><%= userName[i].Username%> <%= userName[i].Score%></td>
+        </tr>
+        <% } %>
+        </tbody>
+    </table>
+</div>
 
 </body>
 </html>

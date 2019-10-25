@@ -1,105 +1,157 @@
 body {
-  font-family: 'Alegreya Sans', sans-serif;
-  font-style: italic;
-  font-weight: 800;
-  background: radial-gradient(110.97% 110.97% at 15.81% -10.97%, rgba(0, 255, 148, 0.75) 0%, rgba(0, 255, 148, 0) 100%), radial-gradient(100% 100% at 50% 0%, #09BEE5 0%, #09BEE5 75.53%, #247ED0 100%);
-  mix-blend-mode: normal;
-  margin: 0;
-  text-transform: uppercase;
-  color: white;
-  height: 100vh;
-  width: 100vw;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+    font-family: 'Alegreya Sans', sans-serif;
+    font-style: italic;
+    font-weight: 800;
+    background: radial-gradient(110.97% 110.97% at 15.81% -10.97%, rgba(0, 255, 148, 0.75) 0%, rgba(0, 255, 148, 0) 100%), radial-gradient(100% 100% at 50% 0%, #09BEE5 0%, #09BEE5 75.53%, #247ED0 100%);
+    mix-blend-mode: normal;
+    margin: 0;
+    text-transform: uppercase;
+    color: white;
+    height: 100vh;
+    width: 100vw;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
+
 /* Spotify Login Page (Start page) */
-#login-container{
-  display:inline-block;
-  width: 100%;
-  height: 100%;
-  text-align: center;
+#login-container {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
 }
 
 #login-mqlogo {
-  height: 50vh;
-  margin: 0 auto;
-  display: block;
+    height: 50vh;
+    margin: 0 auto;
+    display: block;
 }
 
-#login-spotifybutton{
-  display: inline-block;
-  border-radius: 24px;
+#login-spotifybutton {
+    display: inline-block;
+    border-radius: 24px;
 }
 
 
 /* Question Page */
 a {
-  text-decoration: none;
-  color: #00B7FF;
+    text-decoration: none;
+    color: #00B7FF;
 }
-#resultDiv{
-  margin: 0 auto;
-  width: 60%;
-  height: auto;
-  margin-top: 100px;
-  margin-left: auto;
-  margin-right: auto;
-  background-color:#FFA500 ;
+/* Lobby Page and participants table */
+#lobbyLeftDiv{
+    width: 60%;
+    float: left;
+    text-align: center;
+}
+
+#participantTable {
+    width: 40%;
+    float: right;
+}
+
+table.pTable {
+    margin-top: 50px;
+    width: 100%;
+    text-align: left;
+    float: right;
+    border-spacing:0 5px;
+}
+
+table.pTable td {
+    border-left: solid white 3px;
+    border-right: 0;
+    border-bottom: solid white 3px;
+    border-top: solid white 3px;
+    text-shadow: -1px 1px 0 white, 1px 1px 0 white, 1px -1px 0 white, -1px -1px 0 white;
+    font-size: 25px;
+    color: #000000;
+    padding: 2px 20px;
 
 }
-#backtoLobby{
-  position: absolute;
-  left: 20px;
-  top: 20px;
 
-  font-family: Alegreya Sans;
-  font-style: italic;
-  font-weight: 900;
-  font-size: 24px;
-  display: flex;
-  align-items: center;
-  text-align: center;
 
-  color: #000000;
-  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+table.pTable tr:nth-child(even) {
+    background: #09BEE5;
+}
+table.pTable tr:nth-child(odd) {
+    background: #247ED0;
+}
+
+#resultDiv {
+    margin: 0 auto;
+    width: 60%;
+    height: auto;
+    margin-top: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #FFA500;
+
+}
+
+#backtoLobby {
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin: 20px;
+}
+
+#backtoLobby {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+
+    font-family: Alegreya Sans;
+    font-style: italic;
+    font-weight: 900;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: #000000;
+    text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 }
 
 .question {
-  text-align: center;
-  vertical-align: middle;
-  font-size: 6vh;
-  line-height: 35vh;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 6vh;
+    line-height: 35vh;
 }
 
 .answer_table {
-  padding: 0;
-  margin: 0;
-text-align: center;
+    padding: 0;
+    margin: 0;
+    text-align: center;
 }
 
 .answer_box {
-  display: inline-block;
-  text-align: center;
-  width: 45vw;
-  height: 25vh;
-  line-height: 23vh;
-  border: solid white 20px;
-  border-radius: 25px;
-  margin: 20px;
-  font-size: 3.5vw;
-  box-sizing: border-box;
-  max-width: 50%;
+    display: inline-block;
+    text-align: center;
+    width: 45vw;
+    height: 25vh;
+    line-height: 23vh;
+    border: solid white 20px;
+    border-radius: 25px;
+    margin: 20px;
+    font-size: 3.5vw;
+    box-sizing: border-box;
+    max-width: 50%;
 }
 
 #answer_1 {
-  background-color: #009245;
+    background-color: #009245;
 }
+
 #answer_2 {
-  background-color: #ED1C24;
+    background-color: #ED1C24;
 }
+
 #answer_3 {
-  background-color: #0071BC;
+    background-color: #0071BC;
 }
+
 #answer_4 {
-  background-color: #FBB03B;
+    background-color: #FBB03B;
 }
