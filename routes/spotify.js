@@ -111,10 +111,20 @@ router.get('/callback', function(req, res) {
                             con.query(sql3, [spotifyId, display_name, now, now], function (err, rows, result) {
                                 if (err) throw err;
                                 console.log("New user inserted to database.");
+                                res.app.set('access_token', access_token);
+                                res.app.set('refresh_token', refresh_token);
+
+                                // we can also pass the token to the browser to make requests from there
+                                res.redirect('/store');
                             });
                         }
 
                         else console.log("User already exists in database.");
+                        res.app.set('access_token', access_token);
+                        res.app.set('refresh_token', refresh_token);
+
+                        // we can also pass the token to the browser to make requests from there
+                        res.redirect('/store');
                     });
 
                 });
@@ -123,11 +133,11 @@ router.get('/callback', function(req, res) {
                 res.app.set('refresh_token', refresh_token);
 
                 // we can also pass the token to the browser to make requests from there
-                res.redirect('/#' +
+                /*res.redirect('/#' +
                     querystring.stringify({
                         access_token: access_token,
                         refresh_token: refresh_token
-                    }));
+                    }));*/
             } else {
                 res.redirect('/#' +
                     querystring.stringify({
