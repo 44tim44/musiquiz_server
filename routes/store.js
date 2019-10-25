@@ -6,6 +6,10 @@ const getDB = require("../public/javascripts/database").getDB;
 var con;
 
 router.use(function(req,res,next) {
+  if(res.app.get('user_id') == undefined){
+    res.redirect("/");
+    return;
+  }
   console.log("Retrieved DB.")
   con = getDB();
   next();

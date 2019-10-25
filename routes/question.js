@@ -15,6 +15,10 @@ const getSocket = require("../public/javascripts/socketConnection").getSocket;
 var socket;
 
 router.use(function(req,res,next) {
+    if(res.app.get('user_id') == undefined){
+        res.redirect("/");
+        return;
+    }
     console.log("Retrieved DB.")
     con = getDB();
     socket = getSocket();
@@ -169,7 +173,11 @@ router.get('/', function(req, res, next) {
                     getQuestion(function (err, sql_result) {
                         var obj = sql_result[qNumber];
                         getduration(access_token, obj.SpotifyURI, function (err,duration) {
-                        socket.to(glob_lobbypin).emit('NewQuestion', obj);
+                        socket.to(glob_lobbypin).emit('NewQuestion', {
+                            Question: obj,
+                            TimeStart: Date.now() + 1000,
+                            TimeStop: Date.now() + 1000 + duration
+                        });
                         res.render('question.html', {
                             title: 'Musiquiz',
                             access_token,

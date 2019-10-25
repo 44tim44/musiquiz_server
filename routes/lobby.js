@@ -12,7 +12,11 @@ const getSocket = require("../public/javascripts/socketConnection").getSocket;
 var socket;
 
 router.use(function (req, res, next) {
-    console.log("Retrieved DB.")
+    if(res.app.get('user_id') == undefined){
+        res.redirect("/");
+        return;
+    }
+    console.log("Retrieved DB.");
     con = getDB();
     socket = getSocket();
     next();
