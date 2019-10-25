@@ -49,7 +49,7 @@ a {
     float: right;
 }
 
-table.pTable {
+#pTable {
     margin-top: 50px;
     width: 100%;
     text-align: left;
@@ -57,7 +57,7 @@ table.pTable {
     border-spacing:0 5px;
 }
 
-table.pTable td {
+#pTable td {
     border-left: solid white 3px;
     border-right: 0;
     border-bottom: solid white 3px;
@@ -70,11 +70,19 @@ table.pTable td {
 }
 
 
-table.pTable tr:nth-child(even) {
+#pTable tr:nth-child(even) {
     background: #09BEE5;
 }
-table.pTable tr:nth-child(odd) {
+#pTable tr:nth-child(odd) {
     background: #247ED0;
+}
+
+.lobby-username {
+    float: left;
+}
+
+.lobby-score {
+    float: right;
 }
 
 #resultDiv {

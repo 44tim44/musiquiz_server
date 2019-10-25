@@ -1,10 +1,13 @@
 var express = require('express');
 var router = express.Router();
+
 var numbof_questions;
 var user;
 var glob_lobbypin;
 var glob_quizId;
+
 var xml = require("xmlhttprequest").XMLHttpRequest;
+
 const getDB = require("../public/javascripts/database").getDB;
 var con;
 
@@ -82,7 +85,7 @@ function getQuestion(callback) {
 }
 
 
-function getZeroquest(callback) {
+function resetQuestionCounter(callback) {
     var questto_zero = "UPDATE lobby SET currentquestion = 0  WHERE LobbyPin = ?";
 
     con.query(questto_zero, glob_lobbypin ,function (err ,result) {
@@ -165,7 +168,7 @@ router.get('/', function(req, res, next) {
                     getQuestion(function (err, sql_result) {
                         var obj = sql_result[qNumber];
                         var data_dur = getduration(access_token, obj.SpotifyURI);
-                        socket.to('12345').emit('NewQuestion', obj);
+                        socket.to(glob_lobbypin).emit('NewQuestion', obj);
                         res.render('question.html', {
                             title: 'Musiquiz',
                             access_token,
@@ -186,8 +189,7 @@ router.get('/', function(req, res, next) {
                     //Sätt Databas-Lobby-Currentquiz till 0 igen
 
                     getHighscore(function (err, result) {
-                        getZeroquest(function (err){
-                            var result_list = result;
+                        resetQuestionCounter(function (err){
                             res.render('result.html', {
                                 title: 'Musiquiz',
                                 access_token,

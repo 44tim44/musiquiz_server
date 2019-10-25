@@ -5,6 +5,7 @@
     <title>Title</title>
     <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans:400,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js"></script>
 </head>
 <body>
 
@@ -17,16 +18,22 @@
 </div>
 
 <div id="participantTable">
-    <table class="pTable">
+    <table id="pTable">
         <tbody>
-        <% for(var i = 0; i < userName.length; i++) {%>
+        <% for(var i = 0; i < participants.length; i++) {%>
         <tr>
-            <td><%= userName[i].Username%> <%= userName[i].Score%></td>
+            <td>
+                <div class="lobby-username"><%= participants[i].Username%></div>
+                <div class="lobby-score"><%= participants[i].Score%></div>
+            </td>
         </tr>
         <% } %>
         </tbody>
     </table>
 </div>
-
+<script>
+    var pincode = "<%= pincode %>";
+</script>
+<script src="javascripts/lobbyListener.js"></script>
 </body>
 </html>
