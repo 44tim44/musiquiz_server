@@ -13,6 +13,32 @@ body {
     background-attachment: fixed;
 }
 
+.exit-button {
+    color: black;
+    text-shadow:
+            -4px -4px 0 white,
+            -4px  0   0 white,
+            -4px  4px 0 white,
+            0   -4px 0 white,
+            0    4px 0 white,
+            4px -4px 0 white,
+            4px  0   0 white,
+            4px  4px 0 white;
+    font-size: 72px;
+    font-weight: 900;
+    text-transform: lowercase;
+    position: absolute;
+    left: 16px;
+    top: 8px;
+    width: 80px;
+    height: 80px;
+    line-height: 72px;
+    text-align: center;
+}
+.exit-button a {
+    color: black;
+}
+
 /* Spotify Login Page (Start page) */
 #login-container {
     display: inline-block;
@@ -48,6 +74,8 @@ a {
     width: 40%;
     float: right;
 }
+
+/* Result Page*/
 .resultTable{
     width: 100%;
     border-spacing:0 5px;

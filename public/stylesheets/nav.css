@@ -13,7 +13,20 @@ li {
 li a {
   display: block;
   color: black;
-  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+  /*-webkit-text-fill-color: black; /* Will override color (regardless of order) */
+  /*-webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: white;*/
+  text-shadow:
+          -4px -4px 0 white,
+          -4px  0   0 white,
+          -4px  4px 0 white,
+          0   -4px 0 white,
+          0    4px 0 white,
+          4px -4px 0 white,
+          4px  0   0 white,
+          4px  4px 0 white;
+  font-size: 48px;
+  font-weight: 900;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
@@ -24,9 +37,13 @@ li a:hover {
   background-color:rgba(0,0,0,0.25);
   overflow-x: hidden;
 }
+
+.helper {
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
 li a img{
-  margin-top: -35px;
-  height: 75px;
-  margin-bottom: -35px;
-  object-fit: fill;
+  height: 56px;
+  vertical-align: middle;
 }

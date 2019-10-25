@@ -133,7 +133,7 @@ router.post('/start', function (req, res) {
 
 });
 
-router.post('/', function (req, res) {
+router.post('/exit', function (req, res) {
 
     var getLobby = "SELECT * FROM lobby WHERE lobbypin = ?"
     con.query(getLobby, glob_lobbypin, function (err, result) {

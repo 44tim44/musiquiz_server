@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans:400,800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans:400,400i,800,800i,900,900i&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
     <script src="https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js"></script>
 </head>
@@ -18,9 +18,9 @@
         <button type="submit">Start</button>
     </form>
 
-    <div class="lobby-exit">
-        <form type="submit" id="lobby-exit-form" method="post"></form>
-        <a href="javascript:{}" onclick="if(confirm('Are you sure you want to quit?')) { document.getElementById('lobby-exit-form').submit(); } ">X</a>
+    <div class="exit-button">
+        <form type="submit" id="lobby-exit-form" method="post" action="/lobby/exit"></form>
+        <a href="javascript:{}" onclick="if(confirm('Are you sure you want to quit?')) { document.getElementById('lobby-exit-form').submit(); } ">x</a>
     </div>
 </div>
 <div id="participantTable">
