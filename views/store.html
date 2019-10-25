@@ -64,7 +64,7 @@
     </ul>
 
     <!-- The Modal -->
-    <% for(var i = 0; i < quiz.length; i++) {%>
+    <% for(var i = 0; i < quiz.length; i++) { var mine = false;%>
         <div id="myModal<%= i %>" class="modal">
             <!-- Modal content -->
             <div class="modal-content">
@@ -73,15 +73,17 @@
                 <h3><b>QuizID: <%= quiz[i].idquiz %></b></h3>
                 <h4><b>QuizName:<%= quiz[i].Name %></b></h4>
                 <% for(var j = 0; j < owned.length; j++) {%>
-                    <% if(owned[j].QuizID == quiz[i].idquiz){ %>
-                        <button onclick="play()">
-                            PLAY
-                        </button>
-                    <% }else{ %>
-                        <button onclick="buy()">
-                            BUY
-                        </button>
-                    <% } %>
+                    <% if(owned[j].QuizID == quiz[i].idquiz){ mine = true; break; }%>
+                <% } %>
+                <% if(mine == true){%>
+                <form action="store" method="POST" onsubmit="return playQuiz('<%= quiz[i].Name %>');">
+                    <button value="<%= quiz[i].idquiz %>" name="playThisQuiz">PLAY</button>
+                </form>
+                <% }else { %>
+                <h4><b>Buy this quiz for <%= quiz[i].CostCoin %> coins!</b></h4>
+                <form action="store" method="POST" onsubmit="return buyQuiz(<%= coins[0].Coins %>,<%= quiz[i].CostCoin %>,'<%= quiz[i].Name %>');">
+                    <button value="<%= quiz[i].idquiz %>" name="buyThisQuiz">BUY</button>
+                </form>
                 <% } %>
             </div>
         </div>
@@ -273,11 +275,18 @@
         modal.style.display = "none";
     }
 
-    function play(name) {
-        confirm("Do you want to PLAY this quiz?");
+    function playQuiz(quizName) {
+        return confirm("Do you want to play "+ quizName + "?");
     }
-    function buy(name) {
-        confirm("Do you want to BUY this quiz?");
+
+    function buyQuiz(userCoins, quizCost, quizName) {
+        if(quizCost > userCoins){
+            alert("You don't have enough coins!");
+            return false;
+        }
+        else{
+            return confirm("Are you sure you want to buy "+quizName+"?")
+        }
     }
 
 </script>

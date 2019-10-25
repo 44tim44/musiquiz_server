@@ -4,7 +4,7 @@ var numbof_questions;
 var user;
 var glob_lobbypin;
 var glob_quizId;
-
+var xml = require("xmlhttprequest").XMLHttpRequest;
 const getDB = require("../public/javascripts/database").getDB;
 var con;
 
@@ -103,7 +103,27 @@ function getHighscore(callback) {
         //con.end();
     });
 }
+function getduration(access_token, spotify_uri) {
+    const Http = new xml();
+    var str = spotify_uri.split(":");
+    var spotify_id = str[str.length - 1];
+    const url='https://api.spotify.com/v1/audio-features/'+spotify_id;
+    Http.open("GET", url);
+    Http.setRequestHeader('Authorization','Bearer ' + access_token);
+    Http.send();
 
+    Http.onreadystatechange = (e) => {
+        if (Http.readyState == 4 && (Http.status == 200)) {
+
+            console.log("ready")
+            var Data = JSON.parse(Http.responseText);
+            console.log(Data.duration_ms);
+        } else {
+            console.log("not ready yet")
+        }
+    }
+
+}
 
 function dbLoop() {
     var interval = setInterval(function(){
@@ -144,6 +164,7 @@ router.get('/', function(req, res, next) {
                 if(numbof_questions > qNumber) {
                     getQuestion(function (err, sql_result) {
                         var obj = sql_result[qNumber];
+                        var data_dur = getduration(access_token, obj.SpotifyURI);
                         socket.to('12345').emit('NewQuestion', obj);
                         res.render('question.html', {
                             title: 'Musiquiz',
@@ -156,7 +177,7 @@ router.get('/', function(req, res, next) {
                             answer4: obj.Answer4,
                             spotify_uri: obj.SpotifyURI,
                             correctanswer: obj.CorrectAnswer,
-                            pincode: '12345'
+                            pincode: glob_lobbypin,
                         });
                         dbLoop();
                     });

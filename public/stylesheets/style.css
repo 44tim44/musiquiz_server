@@ -89,6 +89,14 @@ table.pTable tr:nth-child(odd) {
 
 }
 
+#time{
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: 50px;
+  margin: 20px;
+}
+
 #backtoLobby {
     position: absolute;
     left: 0;
@@ -118,6 +126,11 @@ table.pTable tr:nth-child(odd) {
     vertical-align: middle;
     font-size: 6vh;
     line-height: 35vh;
+}
+#pincode{
+  text-align: center;
+  font-size: 30px;
+  top: 0;
 }
 
 .answer_table {
