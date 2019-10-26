@@ -140,7 +140,7 @@ socket.on('connection', socket => {
 
        SQLjoin(message,function(err, response, flag){
 
-           socket.join(message.PIN);
+           if(flag == 2) socket.join(message.PIN);
 
            socket.emit('JoinResponse', {
                response: response,

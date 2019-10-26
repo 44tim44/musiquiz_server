@@ -9,7 +9,10 @@
 </head>
 <body>
 
-<div class="exit-button"><a href="./lobby">X</a></div>
+<div class="exit-button">
+    <form type="submit" id="question-exit-form" method="post" action="/question/exit"></form>
+    <a href="javascript:{}" onclick="if(confirm('Are you sure you want to end the match?')) { document.getElementById('question-exit-form').submit(); } ">x</a>
+</div>
 <div id="pincode">PIN: <%= pincode %></div>
 
 <div> <span id="time"> </span> </div>

@@ -175,6 +175,7 @@ router.post('/exit', function (req, res) {
             var deleteLobby = "DELETE FROM lobby WHERE LobbyPin = ? ";
             con.query(deleteLobby, glob_lobbypin, function (err, rows, result) {
                 if (err) throw err;
+                socket.to(glob_lobbypin).emit('LobbyEnd', "Lobby has ended");
                 console.log("Lobby successfully deleted");
                 res.redirect('/store');
             });

@@ -140,6 +140,10 @@ function dbLoop() {
         var sql = "SELECT AnswersReceived FROM lobby WHERE LobbyPin = ? ; SELECT * FROM tempuser WHERE LobbyPin = ?";
         con.query(sql, [glob_lobbypin, glob_lobbypin], function (err, result) {
             if (err) throw err;
+            if(result[0][0] === undefined){
+                clearInterval(interval);
+                return;
+            }
             if (result[0][0].AnswersReceived >= result[1].length /*&& song.time >= song.duration */) {
 
                 var sql2 = "UPDATE lobby SET AnswersReceived = 0 WHERE LobbyPin = ?";
@@ -231,7 +235,10 @@ router.post('/', function(req, res) {
     res.redirect('/question');
 })
 
-
+router.post('/exit', function (req, res) {
+    socket.to(glob_lobbypin).emit('QuizEnd', "Quiz has ended");
+    res.redirect('/lobby');
+});
 
 
 
