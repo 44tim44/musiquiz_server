@@ -112,7 +112,7 @@
 <h1>Store</h1>
 <section class="s">
     <img src="images/arrow_left.svg" id="prev2">
-    <div class="wrapper">
+    <div class="wrapper2">
         <% for(var i = 0; i < quiz.length; i++) { var mine = false;%>
         <% for(var j = 0; j < owned.length; j++) {%>
         <% if(owned[j].QuizID == quiz[i].idquiz){ mine = true; break; }%>
@@ -134,25 +134,25 @@
 <script>
     $('#prev').on('click', function() {
         $('.wrapper').animate({
-            scrollLeft: '-=205'
+            scrollLeft: '-=220'
         }, 300, 'swing');
     });
     $('#next').on('click', function() {
         $('.wrapper').animate({
-            scrollLeft: '+=205'
+            scrollLeft: '+=220'
         }, 300, 'swing');
     });
 
 
     $('#prev2').on('click', function() {
         $('.wrapper2').animate({
-            scrollLeft: '-=205'
+            scrollLeft: '-=220'
         }, 300, 'swing');
     });
 
     $('#next2').on('click', function() {
         $('.wrapper2').animate({
-            scrollLeft: '+=205'
+            scrollLeft: '+=220'
         }, 300, 'swing');
     });
 
