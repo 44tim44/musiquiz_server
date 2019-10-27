@@ -70,8 +70,8 @@
             <div class="modal-content">
                 <span class="close" onclick="closePopUp(<%= i %>)">&times;</span>
                 <img src="images/<%= quiz[i].Image %>" alt="<%= quiz[i].Name %>" style="width:100%">
-                <h3><b>QuizID: <%= quiz[i].idquiz %></b></h3>
-                <h4><b>QuizName:<%= quiz[i].Name %></b></h4>
+                <h1><%= quiz[i].Name %></h1>
+                <h3><%= quiz[i].Description %></h3>
                 <% for(var j = 0; j < owned.length; j++) {%>
                     <% if(owned[j].QuizID == quiz[i].idquiz){ mine = true; break; }%>
                 <% } %>
@@ -80,7 +80,7 @@
                     <button value="<%= quiz[i].idquiz %>" name="playThisQuiz">PLAY</button>
                 </form>
                 <% }else { %>
-                <h4><b>Buy this quiz for <%= quiz[i].CostCoin %> coins!</b></h4>
+                <h2><%= quiz[i].CostCoin %> coins!</h2>
                 <form action="store" method="POST" onsubmit="return buyQuiz(<%= coins[0].Coins %>,<%= quiz[i].CostCoin %>,'<%= quiz[i].Name %>');">
                     <button value="<%= quiz[i].idquiz %>" name="buyThisQuiz">BUY</button>
                 </form>
@@ -100,8 +100,8 @@
         <div class="card" onclick="popUp(<%= i %>)" id="myBtn<%= i %>">
             <img src="images/<%= quiz[i].Image %>" alt="<%= quiz[i].Name %>" style="width:100%">
             <div class="container">
-                <h4><b><%= quiz[i].Name %></b></h4>
-                <p>ID: <%= quiz[i].idquiz %></p>
+                <h2><%= quiz[i].Name %></h2>
+                <p><%= quiz[i].Description %></p>
             </div>
         </div>
         <% } %>
@@ -121,8 +121,8 @@
         <div class="card" onclick="popUp(<%= i %>)" id="myBtn<%= i %>">
             <img src="images/<%= quiz[i].Image %>" alt="<%= quiz[i].Name %>" style="width:100%">
             <div class="container">
-                <h4><b><%= quiz[i].Name %></b></h4>
-                <p>ID: <%= quiz[i].idquiz %></p>
+                <h2><%= quiz[i].Name %></h2>
+                <p><%= quiz[i].Description %></p>
             </div>
         </div>
         <% } %>

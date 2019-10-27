@@ -19,8 +19,16 @@
 }
 
 .container {
-  padding: 2px 16px;
   color: black;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.container p,
+.container h1,
+.container h2,
+.container h3,
+.container h4{
+  padding: 0px 10px 0px 10px;
 }
 .wrapper {
   overflow-x: hidden;
@@ -82,6 +90,14 @@ h1{
   background-color: white;
   color: black;
 }
+.modal-content form,
+.modal-content h1,
+.modal-content h2,
+.modal-content h3,
+.modal-content h4{
+  padding: 0px 10px 0px 10px;
+}
+
 .modal-content img{
   display: inline-block;
   top:0;
