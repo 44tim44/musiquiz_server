@@ -225,7 +225,7 @@ float: left;
     text-align: center;
     vertical-align: middle;
     font-size: 6vh;
-    line-height: 35vh;
+    margin:10vh;
 }
 #pincode{
   text-align: center;
