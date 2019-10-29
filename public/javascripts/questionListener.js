@@ -21,10 +21,8 @@ function correctAnswer() {
 
     for (i = 1; i < 5; i++) {
         if (i == correctans) {
-            console.log("kom in i correct");
             biggersizeans = document.getElementById("answer_" + correctans);
         } else {
-            console.log("kom in i wrong");
             wronganswer = document.getElementById("answer_" + i).style.opacity = "0.2";
         }
     }

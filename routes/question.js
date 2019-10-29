@@ -20,7 +20,6 @@ router.use(function(req,res,next) {
         return;
     }
     glob_quizId = res.app.get('quiz_id');
-    console.log("Retrieved DB.")
     con = getDB();
     socket = getSocket();
     next();
@@ -33,9 +32,7 @@ function getLobbyAndQuizid(callback) {
     con.query(lobby_pin_quiz_id, [user, user] ,function (err ,result) {
         if (err) throw err;
         glob_lobbypin = result[0][0].LobbyPin;
-        console.log("lobbypin: " + glob_lobbypin);
         glob_quizId = result[1][0].CurrentQuiz;
-        console.log("quizID: " + glob_quizId);
         //con.end();
         callback(err, "Done");
     });
@@ -48,7 +45,6 @@ function getNumbofQuestion(callback){
         if (err) throw err;
         var amount_quest = 0;
         amount_quest = result[0].countquiz;
-        console.log("numberofquest: " + result[0].countquiz);
         //con.end();
         callback(err, amount_quest);
     });
@@ -61,7 +57,6 @@ function getQuestionNumber(callback){
     con.query(quest_numb, glob_lobbypin ,function (err ,result) {
         if (err) throw err;
         qurrent_quest = result[0].currentquestion;
-        console.log("currentquestion: " + result[0].currentquestion);
         //con.end();
         callback(err, qurrent_quest);
     });
@@ -77,13 +72,11 @@ function getQuestion(callback) {
 
     con.query(participant, glob_lobbypin ,function (err ,result) {
         if (err) throw err;
-        console.log("Participants: " + result.length);
         //con.end();
     });
 
     con.query(sql, id ,function (err ,result) {
         if (err) throw err;
-        console.log("Result: " + result);
         callback(err ,result);
         //con.end();
     });
@@ -95,7 +88,6 @@ function resetQuestionCounter(callback) {
 
     con.query(questto_zero, glob_lobbypin ,function (err ,result) {
         if (err) throw err;
-        console.log("Question number: " + result);
         callback();
     });
 }
@@ -106,7 +98,6 @@ function getHighscore(callback) {
 
     con.query(result_list, glob_lobbypin ,function (err ,result) {
         if (err) throw err;
-        console.log("Result: " + result);
         callback(err ,result);
         //con.end();
     });
@@ -123,12 +114,11 @@ function getduration(access_token, spotify_uri,callback) {
     Http.onreadystatechange = (e) => {
         if (Http.readyState == 4 && (Http.status == 200)) {
 
-            console.log("ready")
             var Data = JSON.parse(Http.responseText);
-            console.log(Data.duration_ms);
-            callback("no duration",Data.duration_ms);
+            console.log("Duration loaded: "+Data.duration_ms);
+            callback("No duration loaded",Data.duration_ms);
         } else {
-            console.log("not ready yet")
+            console.log("Duration loading...")
         }
     }
 
@@ -167,10 +157,8 @@ router.get('/', function(req, res, next) {
 
     getLobbyAndQuizid(function (err, result){
 
-        console.log(user);
         getNumbofQuestion(function (err, result){
             numbof_questions = result;
-
 
             getQuestionNumber(function (err, qNumber){
 

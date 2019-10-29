@@ -21,7 +21,6 @@ function getData(id,callback) {
       "SELECT * FROM user_quiz WHERE UserID = (SELECT idUser FROM user WHERE SpotifyID = ?)"
   con.query(sql,[id, id], function (err, result) {
     if (err) throw err;
-    console.log("Result: " + result);
     callback(err, result);
   });
 }
@@ -30,7 +29,6 @@ function setData(user_id, quiz_id,callback) {
       "UPDATE user SET Coins = (Coins - (SELECT CostCoin FROM quiz where idquiz= ?)) WHERE SpotifyID = ?";
   con.query(sql, [user_id, quiz_id, quiz_id, user_id], function (err, result) {
     if (err) throw err;
-    console.log(result.affectedRows + " record(s) updated");
     callback(err, result);
   });
 }
@@ -65,6 +63,5 @@ router.post('/', function (req, res) {
       res.redirect('store');
     });
   }
-  console.log(play + ", " + buy);
-})
+});
 module.exports = router;

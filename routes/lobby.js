@@ -17,7 +17,6 @@ router.use(function (req, res, next) {
         return;
     }
     glob_quizId =  res.app.get('quiz_id');
-    console.log("Retrieved DB.");
     con = getDB();
     socket = getSocket();
     next();
@@ -53,8 +52,6 @@ function getLobbyAndQuizid(callback) {
                     con.query(quiz_id, user ,function (err ,result) {
                         glob_quizId = result[0].CurrentQuiz;
 
-                        console.log("lobbypin: " + glob_lobbypin);
-                        console.log("quizID: " + glob_quizId);
                         callback(err, "Done");
                     });
                 });
@@ -71,8 +68,6 @@ function getLobbyAndQuizid(callback) {
             con.query(quiz_id, user ,function (err ,result) {
                 glob_quizId = result[0].CurrentQuiz;
 
-                console.log("lobbypin: " + glob_lobbypin);
-                console.log("quizID: " + glob_quizId);
                 callback(err, "Done");
             });
         }
@@ -85,7 +80,6 @@ function getParticipants(callback) {
 
     con.query(sql, glob_lobbypin,function (err ,result) {
         if (err) throw err;
-        console.log("Participants: " + result.length);
         callback(err, result);
         //con.end();
     });
@@ -95,7 +89,6 @@ function getQuizData(user,callback) {
     var sql = "SELECT quiz.* FROM quiz INNER JOIN user_quiz ON quiz.idquiz = user_quiz.QuizID INNER JOIN user ON user_quiz.UserID = user.idUser WHERE user.SpotifyID = ?"
     con.query(sql,[user], function (err, result) {
         if (err) throw err;
-        console.log("Result: " + result);
         callback(err, result);
     });
 }
@@ -151,7 +144,6 @@ router.post('/start', function (req, res) {
     if(play != undefined){
         setLobbyData(play,function (err, sql_result) {
             updateScore(function (err, result) {
-                console.log("PLAYING THIS SHIT: " + play);
                 res.app.set('quiz_id',play);
                 res.redirect('/question');
             });
