@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Musiquiz</title>
+    <link rel="stylesheet" type="text/css" href="client.css">
+</head>
+<body>
+    <img id="login-mqlogo" src="Musiquiz.svg">
+    <form method="post" id="send-container">
+        <div class="login-label">PIN-Code:</div>
+        <input type="text" name="pin" id="pin-input"><br>
+        <div class="login-label">Username: </div>
+        <input type="text" name="username" id="username-input"><br>
+        <button type="button" onclick="parent.join()" id="join-button">Join</button>
+        <div id="login-error"></div>
+    </form>
+</body>
+</html>

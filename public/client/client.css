@@ -1,0 +1,171 @@
+body {
+    font-family: 'Alegreya Sans', sans-serif;
+    font-style: italic;
+    font-weight: 800;
+    background: radial-gradient(110.97% 110.97% at 15.81% -10.97%, rgba(0, 255, 148, 0.75) 0%, rgba(0, 255, 148, 0) 100%), radial-gradient(100% 100% at 50% 0%, #09BEE5 0%, #09BEE5 75.53%, #247ED0 100%);
+    mix-blend-mode: normal;
+    margin: 0;
+    text-transform: uppercase;
+    color: white;
+    height: 100vh;
+    width: 100vw;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+#bodyframe {
+    border: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#leave-button {
+    position: absolute;
+    width: 10vw;
+    height: 10vw;
+    line-height: 8vw;
+    top: 1vw;
+    left: 1vw;
+    font-size: 8vw;
+}
+
+/* Login.html */
+#login-mqlogo {
+    display: block;
+    width: 80vw;
+    margin: 0 auto 10vh;
+}
+
+#send-container {
+    display: inline-block;
+    width: 100%;
+    font-size: 6vw;
+    text-align: center;
+    margin: 0 auto;
+}
+
+#pin-input {
+    width: 60vw;
+    height: 10vw;
+    margin-bottom: 5vh;
+    line-height: 8vw;
+    font-size: 8vw;
+}
+
+#username-input {
+    width: 60vw;
+    height: 10vw;
+    margin-bottom: 10vh;
+    line-height: 8vw;
+    font-size: 8vw;
+}
+
+#join-button {
+    width: 25vw;
+    height: 10vw;
+    line-height: 8vw;
+    font-size: 8vw;
+}
+
+#login-error {
+    display: inline-block;
+    width: 100%;
+    font-size: 6vw;
+    text-align: center;
+    margin: 5vh auto 0;
+    color: red;
+}
+
+/* Lobby */
+#loading-wrapper {
+    width: 100%;
+    text-align: center;
+}
+#loading-text {
+    margin: 30vh auto auto;
+    width: 75%;
+    font-size: 10vw;
+    text-align: center;
+    color: black;
+    text-shadow:
+            -1vw -1vw 0 white,
+            -1vw  0   0 white,
+            -1vw  1vw 0 white,
+            0   -1vw 0 white,
+            0    1vw 0 white,
+            1vw -1vw 0 white,
+            1vw  0   0 white,
+            1vw  1vw 0 white;
+}
+
+
+/* Question.html */
+#currQ {
+    margin-top: 10vh;
+    width: 100%;
+    font-size: 10vw;
+    text-align: center;
+    color: white;
+}
+#answer-wrapper {
+    margin-top: 10vh;
+}
+.answer-button {
+    display: inline-block;
+    text-align: center;
+    width: 45vw;
+    height: 30vh;
+    border: solid white 20px;
+    border-radius: 25px;
+    margin: 20px;
+    font-size: 3.5vw;
+    box-sizing: border-box;
+    max-width: 50%;
+}
+
+
+.img-answer {
+    width: 25vw;
+    margin: auto;
+}
+
+#answer-button-1 {
+    background-color: #009245;
+}
+#answer-button-1:active {
+    background-color: #009245;
+    border: solid lightgray 20px;
+    box-shadow:inset 0 0 0 2000px rgba(0,0,0,0.2);
+}
+
+#answer-button-2 {
+    background-color: #ED1C24;
+}
+#answer-button-2:active {
+    background-color: #ED1C24;
+    border: solid lightgray 20px;
+    box-shadow:inset 0 0 0 2000px rgba(0,0,0,0.2);
+}
+
+#answer-button-3 {
+    background-color: #0071BC;
+}
+#answer-button-3:active {
+    background-color: #0071BC;
+    border: solid lightgray 20px;
+    box-shadow:inset 0 0 0 2000px rgba(0,0,0,0.2);
+}
+
+#answer-button-4 {
+    background-color: #FBB03B;
+}
+#answer-button-4:active {
+    background-color: #FBB03B;
+    border: solid lightgray 20px;
+    box-shadow:inset 0 0 0 2000px rgba(0,0,0,0.2);
+}
+
+.answer-button:disabled {
+    background-color: dimgray;
+    border: solid lightgray 20px;
+}

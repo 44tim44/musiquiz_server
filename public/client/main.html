@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Musiquiz</title>
+    <script src="jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js"></script>
+    <script>
+		//var socket = io('https://55t.se:8040/',{secure: true, upgrade: false, transports: ['websocket']});
+        var socket = io('http://localhost:8040/');
+        socket.on('connect', function(){});
+        socket.on('event', function(data){});
+        socket.on('disconnect', function(){});
+    </script>
+    <link rel="stylesheet" type="text/css" href="client.css">
+</head>
+<body>
+    <iframe id="bodyframe" src="login.html"></iframe>
+    <script src="connect.js"></script>
+</body>
+</html>

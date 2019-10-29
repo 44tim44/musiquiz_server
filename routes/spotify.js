@@ -6,7 +6,9 @@ var router = express.Router();
 
 var client_id = '727abe78888841138efa90ffe40ee81d'; // Your client id
 var client_secret = '95e3d8921acc4cc88d316f02153fe0bf'; // Your secret
-var redirect_uri = 'http://localhost:3000/spotify/callback'; // Your redirect uri
+var redirect_uri;
+
+
 
 const getDB = require("../public/javascripts/database").getDB;
 
@@ -30,6 +32,11 @@ var stateKey = 'spotify_auth_state';
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+    if(res.app.get('local') == 1) {
+        redirect_uri = 'http://localhost:3000/callback'; // Your redirect uri
+    } else {
+        redirect_uri = 'https://musiquiz.kpop.nu/callback'; // Your redirect uri
+    }
     res.render('spotify.html', { title: 'Spotify' });
 });
 
@@ -117,15 +124,18 @@ router.get('/callback', function(req, res) {
 
                                 // we can also pass the token to the browser to make requests from there
                                 res.redirect('/store');
+                                return;
                             });
                         }
+                        else {
+                            console.log("User already exists in database.");
+                            res.app.set('access_token', access_token);
+                            res.app.set('refresh_token', refresh_token);
 
-                        else console.log("User already exists in database.");
-                        res.app.set('access_token', access_token);
-                        res.app.set('refresh_token', refresh_token);
-
-                        // we can also pass the token to the browser to make requests from there
-                        res.redirect('/store');
+                            // we can also pass the token to the browser to make requests from there
+                            res.redirect('/store');
+                            return;
+                        }
                     });
 
                 });

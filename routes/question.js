@@ -178,27 +178,32 @@ router.get('/', function(req, res, next) {
                     getQuestion(function (err, sql_result) {
                         var obj = sql_result[qNumber];
                         getduration(access_token, obj.SpotifyURI, function (err,duration) {
-                        socket.to(glob_lobbypin).emit('NewQuestion', {
-                            Question: obj,
-                            QuestionNo: qNumber,
-                            TimeStart: Date.now() + 1000,
-                            TimeStop: Date.now() + 1000 + duration
-                        });
-                        res.render('question.html', {
-                            title: 'Musiquiz',
-                            access_token,
-                            refresh_token,
-                            question: obj.Question,
-                            answer1: obj.Answer1,
-                            answer2: obj.Answer2,
-                            answer3: obj.Answer3,
-                            answer4: obj.Answer4,
-                            spotify_uri: obj.SpotifyURI,
-                            correctanswer: obj.CorrectAnswer,
-                            pincode: glob_lobbypin,
-                            duration: duration
-                        });
-                        dbLoop();
+                            socket.to(glob_lobbypin).emit('NewQuestion', {
+                                Question: obj,
+                                QuestionNo: qNumber,
+                                TimeStart: Date.now() + 1000,
+                                TimeStop: Date.now() + 1000 + duration
+                            });
+                            var local = 0;
+                            if(res.app.get('local') == 1) {
+                                local = 1;
+                            }
+                            res.render('question.html', {
+                                title: 'Musiquiz',
+                                access_token,
+                                refresh_token,
+                                question: obj.Question,
+                                answer1: obj.Answer1,
+                                answer2: obj.Answer2,
+                                answer3: obj.Answer3,
+                                answer4: obj.Answer4,
+                                spotify_uri: obj.SpotifyURI,
+                                correctanswer: obj.CorrectAnswer,
+                                pincode: glob_lobbypin,
+                                duration: duration,
+                                local: local
+                            });
+                            dbLoop();
                         });
 
                     });

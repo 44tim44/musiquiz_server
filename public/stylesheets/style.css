@@ -82,7 +82,7 @@ a {
     padding-right: 6vw;
 }
 #tdUsername{
-float: left;
+    float: left;
 }
 #tdScore{
     float: right;
@@ -190,11 +190,11 @@ float: left;
 }
 
 #time{
-  position: absolute;
-  right: 0;
-  top: 0;
-  font-size: 50px;
-  margin: 20px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 50px;
+    margin: 20px;
 }
 
 #backtoLobby {
@@ -221,16 +221,23 @@ float: left;
     text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 }
 
+
+.question-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 35vh;
+}
 .question {
     text-align: center;
     vertical-align: middle;
     font-size: 6vh;
-    margin:10vh;
+    line-height: 7vh;
 }
 #pincode{
-  text-align: center;
-  font-size: 30px;
-  top: 0;
+    text-align: center;
+    font-size: 30px;
+    top: 0;
 }
 
 .answer_table {

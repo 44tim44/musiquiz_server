@@ -119,12 +119,17 @@ router.get('/', function (req, res) {
         getParticipants(function (err, participants) {
             getQuizData(user,function (err, results) {
                 res.app.set('quiz_id', glob_quizId);
+                var local = 0;
+                if(res.app.get('local') == 1) {
+                    local = 1;
+                }
                 res.render('lobby.html', {
                     title: 'Musiquiz',
                     participants: participants,
                     pincode: glob_lobbypin,
                     quizzes: results,
-                    currentQuiz:glob_quizId
+                    currentQuiz:glob_quizId,
+                    local: local
                 });
                 dbLoop(participants);
             })

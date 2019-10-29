@@ -9,14 +9,14 @@
 </head>
 <body>
 
-<div class="exit-button">
+    <div class="exit-button">
     <form type="submit" id="question-exit-form" method="post" action="/question/exit"></form>
     <a href="javascript:{}" onclick="if(confirm('Are you sure you want to end the match?')) { document.getElementById('question-exit-form').submit(); } ">x</a>
-</div>
-<div id="pincode">PIN: <%= pincode %></div>
+    </div>
+    <div id="pincode">PIN: <%= pincode %></div>
 
-<div> <span id="time"> </span> </div>
-<div class="question"><%= question %></div>
+    <div> <span id="time"> </span> </div>
+<div class="question-wrapper"><div class="question"><%= question %></div></div>
 <ul class="answer_table">
     <li class="answer_box" id="answer_1"><%= answer1 %></li>
     <li class="answer_box" id="answer_2"><%= answer2 %></li>
@@ -33,6 +33,7 @@
     var spotify_uri = "<%= spotify_uri %>";
     var pincode = "<%= pincode %>";
     var correctans = "<%= correctanswer %>";
+    var local = "<%= local %>";
 </script>
 <script src="https://sdk.scdn.co/spotify-player.js"></script>
 <script>

@@ -54,40 +54,40 @@
         player.connect();
     };
 </script>
-    <!-- The Navbar -->
-    <ul>
-        <li><a class="active" id="helper" href="./store"><img src="images/MusiquizFitted.png"></a></li>
-        <li><a href="./lobby">Play</a></li>
-        <li><a href="./store">Create</a></li>
-        <li><a href="./store">How To Play</a></li>
-        <li style="float: right"><a href="./store"><%= coins[0].Coins %> coins</a></li>
-    </ul>
+<!-- The Navbar -->
+<ul>
+    <li><a class="active" id="helper" href="./store"><img src="images/MusiquizFitted.png"></a></li>
+    <li><a href="./lobby">Play</a></li>
+    <li><a href="./store">Create</a></li>
+    <li><a href="./store">How To Play</a></li>
+    <li style="float: right"><a href="./store"><%= coins[0].Coins %> coins</a></li>
+</ul>
 
-    <!-- The Modal -->
-    <% for(var i = 0; i < quiz.length; i++) { var mine = false;%>
-        <div id="myModal<%= i %>" class="modal">
-            <!-- Modal content -->
-            <div class="modal-content">
-                <span class="close" onclick="closePopUp(<%= i %>)">&times;</span>
-                <img src="images/<%= quiz[i].Image %>" alt="<%= quiz[i].Name %>" style="width:100%">
-                <h1><%= quiz[i].Name %></h1>
-                <h3><%= quiz[i].Description %></h3>
-                <% for(var j = 0; j < owned.length; j++) {%>
-                    <% if(owned[j].QuizID == quiz[i].idquiz){ mine = true; break; }%>
-                <% } %>
-                <% if(mine == true){%>
-                <form action="store" method="POST" onsubmit="return playQuiz('<%= quiz[i].Name %>');">
-                    <button value="<%= quiz[i].idquiz %>" name="playThisQuiz">PLAY</button>
-                </form>
-                <% }else { %>
-                <h2><%= quiz[i].CostCoin %> coins!</h2>
-                <form action="store" method="POST" onsubmit="return buyQuiz(<%= coins[0].Coins %>,<%= quiz[i].CostCoin %>,'<%= quiz[i].Name %>');">
-                    <button value="<%= quiz[i].idquiz %>" name="buyThisQuiz">BUY</button>
-                </form>
-                <% } %>
-            </div>
-        </div>
-    <% } %>
+<!-- The Modal -->
+<% for(var i = 0; i < quiz.length; i++) { var mine = false;%>
+<div id="myModal<%= i %>" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+        <span class="close" onclick="closePopUp(<%= i %>)">&times;</span>
+        <img src="images/<%= quiz[i].Image %>" alt="<%= quiz[i].Name %>" style="width:100%">
+        <h3><b>QuizID: <%= quiz[i].idquiz %></b></h3>
+        <h4><b>QuizName:<%= quiz[i].Name %></b></h4>
+        <% for(var j = 0; j < owned.length; j++) {%>
+        <% if(owned[j].QuizID == quiz[i].idquiz){ mine = true; break; }%>
+        <% } %>
+        <% if(mine == true){%>
+        <form action="store" method="POST" onsubmit="return playQuiz('<%= quiz[i].Name %>');">
+            <button value="<%= quiz[i].idquiz %>" name="playThisQuiz">PLAY</button>
+        </form>
+        <% }else { %>
+        <h4><b>Buy this quiz for <%= quiz[i].CostCoin %> coins!</b></h4>
+        <form action="store" method="POST" onsubmit="return buyQuiz(<%= coins[0].Coins %>,<%= quiz[i].CostCoin %>,'<%= quiz[i].Name %>');">
+            <button value="<%= quiz[i].idquiz %>" name="buyThisQuiz">BUY</button>
+        </form>
+        <% } %>
+    </div>
+</div>
+<% } %>
 <h1>Your quizzes</h1>
 <section class="s">
     <img src="images/arrow_left.svg" id="prev">
@@ -123,6 +123,7 @@
             <div class="container">
                 <h2><%= quiz[i].Name %></h2>
                 <p><%= quiz[i].Description %></p>
+                <p>Cost: <%= quiz[i].CostCoin %> coins</p>
             </div>
         </div>
         <% } %>

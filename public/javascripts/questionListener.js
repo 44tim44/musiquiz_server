@@ -1,4 +1,10 @@
-var socket = io('http://localhost:8040');
+var socket;
+if(local == 1) {
+    socket = io('http://localhost:8040');
+}
+else {
+    socket = io('https://55t.se:8040/',{secure: true, upgrade: false, transports: ['websocket']});
+}
 
 socket.on('AllAnswersReceived', function(msg){
     correctAnswer();
