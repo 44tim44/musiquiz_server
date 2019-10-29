@@ -11,11 +11,9 @@ const getDB = require("./public/javascripts/database").getDB;
 initDB();
 
 var app = express();
-app.set('local', 0);
-if(process.env.LOCAL = 1) {
-    app.set('local', 1);
-    console.log("It's localhost!")
-}
+//app.set('local', 0); // Use if Server
+app.set('local', 1); // Use if localhost
+
 
 var port = 8040;
 
@@ -23,6 +21,7 @@ var server;
 
 if(app.get('local') == 1) {
     server = http.createServer(app);
+    console.log("Localhost!")
 }
 else {
     var credentials = {
@@ -31,6 +30,7 @@ else {
         ca: fs.readFileSync('chain1.pem')
     };
     server = https.createServer(credentials, app);
+    console.log("Server!")
 }
 
 var socketConnection = require("./public/javascripts/socketConnection").initSocket(server,app.get('local'));
@@ -74,6 +74,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', spotifyRouter);
+app.use('/index', indexRouter);
 app.use('/users', usersRouter);
 app.use('/question', questionRouter);
 app.use('/store', storeRouter);
